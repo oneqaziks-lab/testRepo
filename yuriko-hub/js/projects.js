@@ -2,6 +2,8 @@
    Каталог проектов Yuriko Hub.
    Чтобы добавить проект — допишите объект в массив PROJECTS:
    { icon, name, desc, status: "soon" | "progress" | "ready", url }
+
+   url = "app:<id>" — открыть встроенное веб-приложение из apps.js
    ============================================================ */
 
 const PROJECTS = [
@@ -29,8 +31,29 @@ const PROJECTS = [
   {
     icon: "🤖",
     name: "Yuriko AI Assistant",
-    desc: "Умный ассистент хаба: поможет найти проект, объяснить код и составить план.",
-    status: "soon",
+    desc: "Умный ассистент хаба: база знаний с BM25-поиском, собственный парсер математики, память контекста. Уже работает!",
+    status: "ready",
+    url: "app:ai",
+  },
+  {
+    icon: "💬",
+    name: "Rave",
+    desc: "Мессенджер новой волны: боты-верификаторы с кодами доступа, двухфакторная аутентификация, единый аккаунт для всего хаба.",
+    status: "ready",
+    url: "app:rave",
+  },
+  {
+    icon: "📺",
+    name: "YkoTube",
+    desc: "Видеохостинг от команды. Вход и регистрация — только через аккаунт Rave. Лайки, загрузка роликов, каналы.",
+    status: "ready",
+    url: "app:ykotube",
+  },
+  {
+    icon: "🛰️",
+    name: "Orbit Notes",
+    desc: "Заметки и вики командной работы: markdown, теги, поиск — всё синхронизировано вокруг хаба.",
+    status: "progress",
     url: "#",
   },
   {
@@ -57,17 +80,25 @@ function renderProjects() {
 
   PROJECTS.forEach((p) => {
     const s = STATUS_LABELS[p.status] || STATUS_LABELS.soon;
+    const isApp = p.url && p.url.startsWith("app:");
     const card = document.createElement(p.url && p.url !== "#" ? "a" : "div");
     card.className = "project-card" + (p.status === "soon" ? " card-soon" : "");
-    if (p.url && p.url !== "#") {
+    if (isApp) {
+      card.href = "#";
+      card.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (window.YurikoApps) window.YurikoApps.open(p.url.slice(4));
+      });
+    } else if (p.url && p.url !== "#") {
       card.href = p.url;
-      card.style.textDecoration = "none";
     }
+    if (p.url && p.url !== "#") card.style.textDecoration = "none";
     card.innerHTML =
       '<span class="project-icon">' + p.icon + "</span>" +
       '<h3 class="project-name">' + p.name + "</h3>" +
       '<p class="project-desc">' + p.desc + "</p>" +
-      '<span class="project-status ' + s.cls + '">' + s.text + "</span>";
+      '<span class="project-status ' + s.cls + '">' + s.text +
+      (isApp ? " · Открыть →" : "") + "</span>";
     grid.appendChild(card);
   });
 }

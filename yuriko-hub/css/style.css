@@ -480,3 +480,112 @@ html, body {
   box-shadow: 0 0 16px rgba(124, 92, 255, .4);
   transform: translateY(-1px);
 }
+
+/* ============================================================
+   Встроенные приложения: Rave, YkoTube, AI (js/apps.js)
+   ============================================================ */
+
+.hidden { display: none !important; }
+
+.apps-shell {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(5, 8, 16, 0.82); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+}
+.apps-window {
+  width: min(1080px, 100%); height: min(88vh, 900px);
+  background: #0d1322; border: 1px solid #223052; border-radius: 14px;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 0 60px rgba(80, 120, 255, 0.25);
+}
+.apps-titlebar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 16px; background: #101a30; border-bottom: 1px solid #223052;
+  color: #cfe3ff; font-weight: 600;
+}
+.app-body { flex: 1; overflow-y: auto; padding: 22px; }
+
+.btn { cursor: pointer; border: 1px solid #2c3f6b; border-radius: 8px;
+  background: #16223c; color: #dbe7ff; padding: 8px 14px; font-size: 14px; transition: .15s; }
+.btn:hover { border-color: #5b8cff; box-shadow: 0 0 12px rgba(91,140,255,.35); }
+.btn-primary { background: linear-gradient(135deg,#5b8cff,#8a5bff); border: none; color: #fff; }
+.btn-ghost { background: transparent; }
+.btn-danger { background: #3a1520; border-color: #7a2b3b; color: #ffb4c4; }
+.btn-small { padding: 4px 10px; font-size: 12px; }
+.btn-block { width: 100%; margin-top: 8px; }
+.btn-x { background: transparent; border: none; color: #8fa6cc; font-size: 16px; }
+.btn-x:hover { color: #fff; }
+
+.app-msg { min-height: 20px; margin-top: 12px; font-size: 13px; color: #9fb4dd; }
+.app-msg.ok { color: #6cf0a8; } .app-msg.err { color: #ff8ba0; }
+.app-hint { color: #7f93bb; font-size: 12.5px; }
+.app-loading { color: #6b7fa8; padding: 40px; text-align: center; }
+.app-code { background: #0a101e; border: 1px solid #1d2a47; border-radius: 8px; padding: 12px; font-size: 12.5px; color: #9fd6a8; white-space: pre-wrap; }
+.app-comment { color: #5f7396; }
+.app-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: #16223c; border: 1px solid #5b8cff; color: #dbe7ff; padding: 10px 18px;
+  border-radius: 10px; z-index: 1200; box-shadow: 0 0 20px rgba(91,140,255,.4); }
+
+.app-offline { text-align: center; color: #cfe3ff; padding: 40px 20px; }
+.app-offline .app-code { text-align: left; display: inline-block; margin-top: 12px; }
+
+/* ---------- Rave ---------- */
+.rave-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 22px; }
+.rave-panel, .rave-verifs { background: #101a30; border: 1px solid #223052; border-radius: 12px; padding: 20px; }
+.rave-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; color: #fff; }
+.rave-logo { font-size: 26px; }
+.rave-panel label { display: block; margin: 10px 0 2px; font-size: 13px; color: #9fb4dd; }
+.rave-panel input { width: 100%; margin-top: 4px; background: #0a101e; border: 1px solid #2c3f6b;
+  border-radius: 8px; color: #e6efff; padding: 9px 12px; font-size: 14px; }
+.rave-panel input:focus { outline: none; border-color: #5b8cff; }
+.rave-actions { margin-top: 16px; display: flex; gap: 10px; }
+.rave-alt { margin-top: 12px; font-size: 13px; } .rave-alt a { color: #8ab4ff; }
+#rv-2fa-row.shown { border: 1px dashed #7a5bff; border-radius: 10px; padding: 10px; margin-top: 12px; }
+
+.verif-card { display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  border-bottom: 1px solid #1d2a47; padding: 10px 0; flex-wrap: wrap; }
+.verif-info b { color: #dbe7ff; display: block; } .verif-info small { color: #7f93bb; }
+.verif-code { font-size: 11.5px; color: #7f93bb; text-align: center; }
+.verif-code b { color: #ffd27a; letter-spacing: 2px; font-size: 15px; }
+
+.bot-chat { margin-top: 14px; border: 1px solid #2c3f6b; border-radius: 10px; background: #0a101e; }
+.bot-chat-head { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #1d2a47; color: #cfe3ff; }
+.bot-chat-log { max-height: 200px; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.bot-msg { max-width: 85%; padding: 7px 11px; border-radius: 10px; font-size: 13px; white-space: pre-wrap; }
+.bot-msg.user { align-self: flex-end; background: #2b4a8f; color: #eaf2ff; }
+.bot-msg.bot { align-self: flex-start; background: #16223c; border: 1px solid #223052; color: #cfe3ff; }
+.bot-chat-input { display: flex; gap: 8px; padding: 8px; border-top: 1px solid #1d2a47; }
+.bot-chat-input input { flex: 1; background: #101a30; border: 1px solid #2c3f6b; border-radius: 8px; color: #e6efff; padding: 8px 10px; }
+
+.rave-main { display: grid; grid-template-columns: 260px 1fr; gap: 20px; }
+.rave-side { background: #101a30; border: 1px solid #223052; border-radius: 12px; padding: 16px; }
+.rave-me { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; color: #dbe7ff; }
+.rave-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg,#5b8cff,#8a5bff);
+  display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+.rave-2fa-box { margin-top: 10px; border: 1px dashed #2c3f6b; border-radius: 10px; padding: 10px; font-size: 12.5px; color: #9fb4dd; }
+.rave-2fa-box input { width: 100%; margin: 6px 0; background: #0a101e; border: 1px solid #2c3f6b; border-radius: 8px; color: #e6efff; padding: 8px; }
+.rave-content section, .rave-bots-list, .rave-status-card { background: #101a30; border: 1px solid #223052; border-radius: 12px; padding: 16px; margin-bottom: 14px; color: #cfe3ff; }
+.rave-bot-row { padding: 8px 0; border-bottom: 1px solid #1d2a47; } .rave-bot-row small { color: #7f93bb; margin-left: 8px; }
+
+/* ---------- YkoTube ---------- */
+.yko-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.yko-brand { display: flex; align-items: center; gap: 8px; font-size: 22px; color: #fff; }
+.yko-brand span { background: #ff3b4e; color: #fff; border-radius: 8px; padding: 2px 8px; font-size: 16px; }
+.yko-red { color: #ff3b4e; }
+.yko-authbox { display: flex; align-items: center; gap: 10px; color: #9fb4dd; font-size: 13px; }
+.yko-user { color: #dbe7ff; }
+.yko-upload-row { display: flex; gap: 10px; margin-bottom: 14px; }
+.yko-upload-row input { flex: 1; background: #0a101e; border: 1px solid #2c3f6b; border-radius: 8px; color: #e6efff; padding: 9px 12px; }
+.yko-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.yko-card { background: #101a30; border: 1px solid #223052; border-radius: 10px; overflow: hidden; transition: .15s; }
+.yko-card:hover { border-color: #5b8cff; transform: translateY(-2px); }
+.yko-thumb { height: 120px; background: linear-gradient(135deg,#1b2a4d,#2a1b4d); display: flex; align-items: center; justify-content: center; font-size: 42px; position: relative; }
+.yko-views { position: absolute; bottom: 6px; right: 8px; font-size: 11px; color: #cbd8f2; background: rgba(0,0,0,.5); padding: 2px 6px; border-radius: 6px; }
+.yko-meta { padding: 10px 12px; color: #dbe7ff; } .yko-meta small { color: #7f93bb; display: block; margin: 2px 0 8px; }
+
+.ai-app-card { max-width: 640px; margin: 30px auto; background: #101a30; border: 1px solid #223052; border-radius: 14px; padding: 26px; color: #cfe3ff; }
+.ai-app-card h2 { color: #fff; } .ai-app-card li { margin: 6px 0; }
+
+@media (max-width: 860px) {
+  .rave-wrap, .rave-main { grid-template-columns: 1fr; }
+}

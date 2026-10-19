@@ -1,0 +1,38 @@
+[
+  {
+    "verificator_id": "453cfacf-9cbd-4725-bfb4-2d3de2df51bb",
+    "username": "Yuriko_VerifyBot",
+    "display": "Yuriko Verify Bot 🛡️",
+    "commands": [
+      "start",
+      "code",
+      "status"
+    ],
+    "id": "469ffda2-2060-46aa-8718-90c1f9a71cbe",
+    "created_at": "2026-10-19T11:17:33.267Z"
+  },
+  {
+    "verificator_id": "e816ce23-beea-465a-98fa-71ef4292b0cf",
+    "username": "Yuriko_AuthBot",
+    "display": "Yuriko Auth Bot 🔐",
+    "commands": [
+      "start",
+      "code",
+      "status"
+    ],
+    "id": "3f7c2517-1c44-46f7-84df-be3ff60f9c0b",
+    "created_at": "2026-10-19T11:17:33.268Z"
+  },
+  {
+    "verificator_id": "7787f4e8-716a-43fb-968f-00111c585d13",
+    "username": "Yuriko_SupportBot",
+    "display": "Yuriko Support 🤖",
+    "commands": [
+      "start",
+      "code",
+      "status"
+    ],
+    "id": "4351ef94-00bb-4685-9f2d-1e775067788a",
+    "created_at": "2026-10-19T11:17:33.268Z"
+  }
+]

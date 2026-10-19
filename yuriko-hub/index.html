@@ -82,6 +82,21 @@
             <li>Slash-команды: <code>/skills</code>, <code>/status</code>, <code>/clear</code></li>
           </ul>
         </div>
+        <div class="about-card">
+          <h2>Экосистема: Rave + YkoTube + БД</h2>
+          <p>
+            <b>Rave</b> 💬 — мессенджер хаба: регистрация только через ботов-верификаторов
+            с кодами доступа, двухфакторная аутентификация (6-значные коды от @Yuriko_AuthBot).
+            <b>YkoTube</b> 📺 — видеохостинг: аккаунты не создаются отдельно — вход и регистрация
+            выполняются через Rave (единый OAuth-подобный токен).
+          </p>
+          <ul>
+            <li>БД: две базы — <code>yarikodb</code> (Rave) и <code>ykotube</code> (YkoTube)</li>
+            <li>Подключение: <code>root@localhost</code>, пользователь root <b>без пароля</b></li>
+            <li>Запуск сервера: <code>node server/server.js</code> → http://localhost:8080</li>
+            <li>Схема MySQL: <code>sql/schema.sql</code> · команды: <code>rave</code>, <code>ykotube</code></li>
+          </ul>
+        </div>
       </section>
     </main>
 
@@ -94,6 +109,7 @@
   <script src="js/ai-engine.js"></script>
   <script src="js/terminal.js"></script>
   <script src="js/projects.js"></script>
+  <script src="js/apps.js"></script>
   <script src="js/gui.js"></script>
   <script src="js/ai-ui.js"></script>
 </body>
