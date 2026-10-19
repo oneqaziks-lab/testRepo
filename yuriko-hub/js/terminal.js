@@ -111,11 +111,28 @@
         "  status   — состояние сервисов хаба",
         "  projects — список проектов (текстом)",
         "  whoami   — кто я?",
+        "  ai <вопрос> — спросить Yuriko AI (или 'ai' — открыть чат)",
         "  banner   — показать логотип",
         "  clear    — очистить экран",
         "  reboot   — перезагрузить терминал",
         "  sudo ..  — попытаться получить права :)",
       ].join("\n"), "line-info");
+    },
+    ai(arg) {
+      const q = arg.trim();
+      if (!q) {
+        addLine("Открываю Yuriko AI Assistant...", "line-ok");
+        setTimeout(() => window.YurikoAUI.open(), 300);
+        return;
+      }
+      addLine('yuriko-ai: обрабатываю запрос "' + escapeHtml(q) + '"...', "line-info");
+      let resp;
+      try {
+        resp = window.YurikoAI.answer(q);
+      } catch (e) {
+        resp = "ошибка движка: " + e.message;
+      }
+      resp.split("\n").forEach((l) => addLine("✦ " + l, "line-ok"));
     },
     gui() {
       addLine("Запуск графического окружения Yuriko Hub...", "line-ok");
@@ -163,9 +180,12 @@
       addLine("user is not in the sudoers file. This incident will be reported. 😄", "line-error");
       return;
     }
-    const fn = COMMANDS[cmd.split(/\s+/)[0]];
+    const parts = cmd.split(/\s+/);
+    const fn = COMMANDS[parts[0]];
     if (fn) {
-      fn();
+      // передаём аргументы команде (например: ai <вопрос>)
+      const arg = raw.trim().slice(parts[0].length).trim();
+      fn(arg);
     } else {
       addLine('bash: ' + escapeHtml(cmd.split(/\s+/)[0]) + ": команда не найдена. Введите help.", "line-error");
     }

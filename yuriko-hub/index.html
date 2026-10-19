@@ -36,6 +36,7 @@
       <nav class="gui-nav">
         <a href="#" class="nav-link active" data-section="projects">Проекты</a>
         <a href="#" class="nav-link" data-section="about">О хабе</a>
+        <button id="btn-open-ai" class="btn-ai" title="Открыть Yuriko AI Assistant (Ctrl+J)">✦ AI Assistant</button>
         <button id="btn-exit-gui" class="btn-exit" title="Вернуться в терминал">&lt;/&gt; Terminal</button>
       </nav>
     </header>
@@ -64,6 +65,21 @@
             <li>После завершения загрузки становится доступна команда <code>GUI</code></li>
             <li><code>GUI</code> — переключение в графический режим хаба</li>
             <li><code>help</code> — список доступных команд терминала</li>
+            <li><code>ai &lt;вопрос&gt;</code> — спросить Yuriko AI прямо из терминала</li>
+          </ul>
+        </div>
+        <div class="about-card">
+          <h2>Yuriko AI Assistant ✦</h2>
+          <p>
+            Встроенный умный ассистент: понимает вопросы на русском и английском,
+            ищет ответы по базе знаний через BM25-индекс, решает математику
+            собственным парсером выражений (скобки, степени, корни, проценты)
+            и помнит контекст диалога. Работает полностью локально в браузере.
+          </p>
+          <ul>
+            <li>Открыть: кнопка <b>✦ AI Assistant</b>, команда <code>ai</code> в терминале или <code>Ctrl+J</code></li>
+            <li>Попробуй: «Что такое хаб?», «Сколько будет (12+8)*3 − sqrt(25)?», «15% от 2400», «пошути»</li>
+            <li>Slash-команды: <code>/skills</code>, <code>/status</code>, <code>/clear</code></li>
           </ul>
         </div>
       </section>
@@ -75,8 +91,10 @@
   </div>
 
   <script src="js/boot-commands.js"></script>
+  <script src="js/ai-engine.js"></script>
   <script src="js/terminal.js"></script>
   <script src="js/projects.js"></script>
   <script src="js/gui.js"></script>
+  <script src="js/ai-ui.js"></script>
 </body>
 </html>
