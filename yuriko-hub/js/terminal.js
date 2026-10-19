@@ -112,6 +112,8 @@
         "  projects — список проектов (текстом)",
         "  whoami   — кто я?",
         "  ai <вопрос> — спросить Yuriko AI (или 'ai' — открыть чат)",
+        "  rave [status]     — открыть Rave / проверить аккаунт",
+        "  ykotube [stats]   — открыть YkoTube / статистику БД",
         "  banner   — показать логотип",
         "  clear    — очистить экран",
         "  reboot   — перезагрузить терминал",
@@ -138,10 +140,34 @@
       addLine("Запуск графического окружения Yuriko Hub...", "line-ok");
       setTimeout(() => window.YurikoHub.openGUI(), 500);
     },
+    rave(arg) {
+      const a = (arg || "").trim();
+      if (a === "status" && typeof fetch === "function") {
+        fetch("http://localhost:8080/api/rave/me").then(r => r.json()).then(d =>
+          addLine(d.error ? "Rave: не авторизован (войди через GUI → Rave)" : "Rave: пользователь " + d.username + ", 2FA: " + (d.two_factor ? "вкл" : "выкл"), "line-info")
+        ).catch(() => addLine("Rave API недоступен. Запусти: node server/server.js", "line-error"));
+        return;
+      }
+      addLine("Открываю Rave — мессенджер с ботами-верификаторами...", "line-ok");
+      setTimeout(() => { window.YurikoHub.openGUI(); setTimeout(() => window.YurikoApps.open("rave"), 300); }, 400);
+    },
+    ykotube(arg) {
+      const a = (arg || "").trim();
+      if (a === "stats" && typeof fetch === "function") {
+        fetch("http://localhost:8080/api/ykotube/stats").then(r => r.json()).then(d =>
+          addLine(`YkoTube БД @${d.host} (${d.user}, без пароля): channels=${d.channels} videos=${d.videos}`, "line-info")
+        ).catch(() => addLine("YkoTube API недоступен. Запусти: node server/server.js", "line-error"));
+        return;
+      }
+      addLine("Открываю YkoTube — видеохостинг со входом через Rave...", "line-ok");
+      setTimeout(() => { window.YurikoHub.openGUI(); setTimeout(() => window.YurikoApps.open("ykotube"), 300); }, 400);
+    },
     status() {
       addLine("yuriko-core   ● running (healthy)", "line-ok");
       addLine("yuriko-net    ● running (healthy)", "line-ok");
       addLine("yuriko-auth   ● running (healthy)", "line-ok");
+      addLine("rave-api      ● localhost:8080/api/rave (БД yarikodb, root@localhost)", "line-ok");
+      addLine("ykotube-api   ● localhost:8080/api/ykotube (БД ykotube)", "line-ok");
       addLine("yuriko-gui    ○ standby — ждёт команды GUI", "line-warn");
     },
     projects() {

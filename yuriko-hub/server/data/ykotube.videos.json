@@ -1,0 +1,37 @@
+[
+  {
+    "channel_id": "574cf14f-678d-49d0-9126-72a24fb41388",
+    "title": "Добро пожаловать в YkoTube!",
+    "emoji": "🎬",
+    "views": 1337,
+    "tags": [
+      "hub",
+      "intro"
+    ],
+    "id": "377c3c1d-7eb1-4aa5-8d60-3a0fbeb42a78",
+    "created_at": "2026-10-19T11:17:33.269Z"
+  },
+  {
+    "channel_id": "574cf14f-678d-49d0-9126-72a24fb41388",
+    "title": "Rave: коды и 2FA за 60 секунд",
+    "emoji": "🔐",
+    "views": 904,
+    "tags": [
+      "rave",
+      "security"
+    ],
+    "id": "c291c29e-07ac-4c63-8726-232bdcb6f11a",
+    "created_at": "2026-10-19T11:17:33.269Z"
+  },
+  {
+    "channel_id": "eb685429-fd3f-4251-8abf-61e30a212463",
+    "title": "Привет от Bob",
+    "emoji": "📼",
+    "views": 0,
+    "tags": [
+      "new"
+    ],
+    "id": "97861bdb-f912-4ebc-b0b9-2f3b7540a2f5",
+    "created_at": "2026-10-19T11:18:13.345Z"
+  }
+]
