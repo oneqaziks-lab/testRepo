@@ -27,6 +27,11 @@
 
   document.getElementById("btn-exit-gui").addEventListener("click", closeGUI);
 
+  /* ---------- кнопка AI Assistant в шапке GUI ---------- */
+  document.getElementById("btn-open-ai").addEventListener("click", () => {
+    if (window.YurikoAUI) window.YurikoAUI.open();
+  });
+
   /* ---------- навигация по разделам GUI ---------- */
 
   document.querySelectorAll(".nav-link").forEach((link) => {
