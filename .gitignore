@@ -1,1 +1,5 @@
 *.log
+
+# локальные данные БД и логи — не должны попадать в GitHub
+yuriko-hub/server/data/
+*.log
