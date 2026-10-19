@@ -46,9 +46,13 @@
     return '<div class="app-offline">' +
       "<h3>⚠ Сервер хаба не отвечает</h3>" +
       "<p>Приложения Rave и YkoTube работают поверх локальной БД " +
-      "(<code>root@localhost</code>, без пароля). Запустите сервер:</p>" +
-      '<pre class="app-code">cd yuriko-hub\nnode server/server.js\n<span class="app-comment"># http://localhost:8080 · БД: yarikodb + ykotube</span></pre>' +
-      "<p>…и обновите страницу.</p></div>";
+      "(<code>root@localhost</code>, без пароля).</p>" +
+      "<p><b>Если хаб открыт через XAMPP (Apache)</b> — сервер Node нужно запустить отдельно, Apache его не поднимает:</p>" +
+      '<pre class="app-code">cd C:\\xampp\\htdocs\\yuriko-hub\nnode server/server.js\n<span class="app-comment"># http://localhost:8080 · БД: yarikodb + ykotube</span></pre>' +
+      "<p>Или откройте хаб прямо через Node-сервер (он сам раздаёт статику):</p>" +
+      '<pre class="app-code">node server/server.js\n<span class="app-comment"># затем откройте http://localhost:8080</span></pre>' +
+      "<p>После запуска обновите страницу. Статус сервера: " +
+      '<a href="http://localhost:8080/api/health" target="_blank">/api/health</a></p></div>';
   }
 
   /* ============================================================
@@ -458,19 +462,23 @@ users: ${h.databases.yarikodb.users} · verificators: ${h.databases.yarikodb.ver
     shell = document.createElement("div");
     shell.id = "apps-shell";
     shell.className = "apps-shell hidden";
+    const standalone = !!document.getElementById("standalone-app");
     shell.innerHTML =
       '<div class="apps-window">' +
       '<div class="apps-titlebar"><span id="apps-title"></span>' +
-      '<button class="btn btn-x" id="apps-close-btn" title="Закрыть">✕</button></div>' +
+      (standalone
+        ? '<a class="btn btn-x" href="index.html" title="Вернуться в хаб">⌂</a></div>'
+        : '<button class="btn btn-x" id="apps-close-btn" title="Закрыть">✕</button></div>') +
       '<div class="app-body" id="apps-body"></div></div>';
     document.body.appendChild(shell);
-    shell.querySelector("#apps-close-btn").onclick = close;
+    const closeBtn = shell.querySelector("#apps-close-btn");
+    if (closeBtn) closeBtn.onclick = close;
     return shell;
   }
 
   function close() {
     const shell = document.getElementById("apps-shell");
-    shell.classList.add("hidden");
+    if (shell) shell.classList.add("hidden");
     current = null;
   }
 

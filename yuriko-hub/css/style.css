@@ -589,3 +589,68 @@ html, body {
 @media (max-width: 860px) {
   .rave-wrap, .rave-main { grid-template-columns: 1fr; }
 }
+
+/* ============ ОТДЕЛЬНЫЕ СТРАНИЦЫ ПРИЛОЖЕНИЙ (rave.html / ykotube.html) ============ */
+.standalone-body { overflow: auto; background: var(--bg-dark); }
+
+.standalone-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.standalone-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 24px;
+  background: linear-gradient(180deg, #131a2a, #0d1220);
+  border-bottom: 1px solid #232c44;
+}
+
+.standalone-back {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid #2a3554;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+.standalone-back:hover { background: #1b2440; border-color: var(--accent-2); }
+
+.standalone-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+}
+.standalone-brand small { color: var(--term-dim); font-size: 12px; margin-left: 4px; }
+
+.standalone-nav { margin-left: auto; }
+.standalone-link {
+  color: var(--text-light);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #2a3554;
+  font-size: 14px;
+}
+.standalone-link:hover { border-color: var(--accent); color: var(--accent-2); }
+
+.standalone-main { flex: 1; padding: 24px; }
+
+.standalone-app {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: transparent;
+}
+
+.standalone-footer {
+  padding: 14px 24px;
+  text-align: center;
+  color: var(--term-dim);
+  font-size: 13px;
+  border-top: 1px solid #1c2438;
+}
+.standalone-footer code { color: var(--term-green); }

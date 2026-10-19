@@ -78,16 +78,23 @@ function renderProjects() {
   if (!grid) return;
   grid.innerHTML = "";
 
+  // отдельные страницы приложений (файлы на диске) — ссылки напрямую
+  const STANDALONE_PAGES = { rave: "rave.html", ykotube: "ykotube.html" };
+
   PROJECTS.forEach((p) => {
     const s = STATUS_LABELS[p.status] || STATUS_LABELS.soon;
     const isApp = p.url && p.url.startsWith("app:");
+    const appId = isApp ? p.url.slice(4) : null;
+    const page = STANDALONE_PAGES[appId];
     const card = document.createElement(p.url && p.url !== "#" ? "a" : "div");
     card.className = "project-card" + (p.status === "soon" ? " card-soon" : "");
-    if (isApp) {
+    if (page) {
+      card.href = page; // полноценная отдельная страница мессенджера / видеохостинга
+    } else if (isApp) {
       card.href = "#";
       card.addEventListener("click", (e) => {
         e.preventDefault();
-        if (window.YurikoApps) window.YurikoApps.open(p.url.slice(4));
+        if (window.YurikoApps) window.YurikoApps.open(appId);
       });
     } else if (p.url && p.url !== "#") {
       card.href = p.url;
@@ -98,7 +105,7 @@ function renderProjects() {
       '<h3 class="project-name">' + p.name + "</h3>" +
       '<p class="project-desc">' + p.desc + "</p>" +
       '<span class="project-status ' + s.cls + '">' + s.text +
-      (isApp ? " · Открыть →" : "") + "</span>";
+      (isApp ? (page ? " · Открыть страницу →" : " · Открыть →") : "") + "</span>";
     grid.appendChild(card);
   });
 }

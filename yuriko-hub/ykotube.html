@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YkoTube — видеохостинг Yuriko Hub</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="standalone-body">
+
+  <div class="standalone-shell">
+    <header class="standalone-header">
+      <a class="standalone-back" href="index.html">← Yuriko Hub</a>
+      <div class="standalone-brand"><span>▶</span><b>Yko<b class="yko-red">Tube</b></b><small>вход только через Rave</small></div>
+      <nav class="standalone-nav">
+        <a class="standalone-link" href="rave.html">💬 Rave</a>
+      </nav>
+    </header>
+
+    <main class="standalone-main">
+      <!-- приложение YkoTube рендерится сюда (js/apps.js → YkoApp) -->
+      <div id="standalone-app" class="app-body standalone-app">
+        <div class="app-loading">Загрузка YkoTube...</div>
+      </div>
+    </main>
+
+    <footer class="standalone-footer">
+      YkoTube · БД <code>ykotube</code> @ root@localhost (без пароля) · API: <code>/api/ykotube/*</code>
+    </footer>
+  </div>
+
+  <script src="js/boot-commands.js"></script>
+  <script src="js/ai-engine.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/standalone.js"></script>
+</body>
+</html>

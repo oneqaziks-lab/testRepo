@@ -59,42 +59,67 @@
 
   /* ---------- автозагрузка 80 команд ---------- */
 
-  function runBootSequence() {
+  /* скорость загрузки: yuriko_boot_speed = instant | fast | normal
+     по умолчанию — instant (мгновенно), чтобы не ждать при каждом входе */
+  function bootSpeed() {
+    const s = localStorage.getItem("yuriko_boot_speed");
+    return s === "fast" || s === "normal" ? s : "instant";
+  }
+
+  function bootDelay() {
+    const sp = bootSpeed();
+    if (sp === "instant") return 0;
+    if (sp === "fast")    return 3 + Math.random() * 6;   // ~80 строк/сек
+    return 55 + Math.random() * 90;                        // классический режим
+  }
+
+  function runBootSequence(onDone) {
     busy = true;
     input.disabled = true;
     let i = 0;
+    const speed = bootSpeed();
 
-    function step() {
-      if (i >= BOOT_COMMANDS.length) {
-        finishBoot();
-        return;
-      }
-      const c = BOOT_COMMANDS[i];
-      // сама команда (как будто пользователь её набрал)
+    function emit(c) {
       addLine('<span class="prompt">user@yuriko-hub:~$</span> <span class="line-cmd">' + escapeHtml(c.cmd) + "</span>");
-      // результат в стиле systemd
       const num = String(i + 1).padStart(2, "0");
       addLine(
         tagHtml("OK") +
         '<span class="line-info">' + pad(num, 4) + " " + escapeHtml(c.msg) + "</span>"
       );
       i++;
-      // случайная задержка для реалистичности
-      setTimeout(step, 55 + Math.random() * 90);
     }
 
-    step();
+    function step() {
+      if (speed === "instant") {
+        // мгновенный режим: все 80 команд одним кадром, без прокрутки по одной
+        while (i < BOOT_COMMANDS.length) emit(BOOT_COMMANDS[i]);
+        finishBoot(onDone);
+        return;
+      }
+      if (i >= BOOT_COMMANDS.length) {
+        finishBoot(onDone);
+        return;
+      }
+      emit(BOOT_COMMANDS[i]);
+      setTimeout(step, bootDelay());
+    }
+
+    if (speed === "instant") { step(); } else { setTimeout(step, 120); }
   }
 
-  function finishBoot() {
+  function finishBoot(onDone) {
     busy = false;
     bootDone = true;
+    localStorage.setItem("yuriko_booted", "1"); // сессия: загрузку больше не повторяем
+
     addLine("", "");
-    addLine("<b>Загрузка завершена за 8.42 с. Доступно 80 сервисов.</b>", "line-ok");
+    addLine("<b>Загрузка завершена — доступно 80 сервисов.</b>", "line-ok");
     addLine('Введите <span class="line-cmd"><b>GUI</b></span> для запуска графической части хаба, или <span class="line-cmd">help</span> для списка команд.', "line-info");
+    addLine('<small>Скорость загрузки: <b>' + bootSpeed() + '</b> — изменить: <span class="line-cmd">speed instant|fast|normal</span></small>', "line-info");
     addLine("", "");
     input.disabled = false;
     input.focus();
+    if (typeof onDone === "function") onDone();
   }
 
   function escapeHtml(s) {
@@ -114,6 +139,7 @@
         "  ai <вопрос> — спросить Yuriko AI (или 'ai' — открыть чат)",
         "  rave [status]     — открыть Rave / проверить аккаунт",
         "  ykotube [stats]   — открыть YkoTube / статистику БД",
+        "  speed <режим>     — скорость загрузки: instant|fast|normal",
         "  banner   — показать логотип",
         "  clear    — очистить экран",
         "  reboot   — перезагрузить терминал",
@@ -189,9 +215,20 @@
       output.innerHTML = "";
     },
     reboot() {
+      localStorage.removeItem("yuriko_booted");
+      localStorage.removeItem("yuriko_session");
       output.innerHTML = "";
       showBanner();
       runBootSequence();
+    },
+    speed(arg) {
+      const a = (arg || "").trim().toLowerCase();
+      if (["instant", "fast", "normal"].includes(a)) {
+        localStorage.setItem("yuriko_boot_speed", a);
+        addLine("Скорость загрузки установлена: " + a + ". Теперь: reboot", "line-ok");
+      } else {
+        addLine("Использование: speed instant | speed fast | speed normal (сейчас: " + bootSpeed() + ")", "line-info");
+      }
     },
   };
 
@@ -240,6 +277,15 @@
 
   /* ---------- публичный API ---------- */
   window.YurikoHub = window.YurikoHub || {};
+
+  // сохранение сессии: куда вести пользователя после загрузки терминала
+  function saveSession() {
+    const guiActive = document.getElementById("gui-screen").classList.contains("active");
+    localStorage.setItem("yuriko_session", guiActive ? "gui" : "terminal");
+  }
+  window.addEventListener("beforeunload", saveSession);
+  setInterval(saveSession, 2000);
+
   window.YurikoHub.backToTerminal = function () {
     document.getElementById("gui-screen").classList.remove("active");
     document.getElementById("terminal-screen").classList.add("active");
@@ -248,7 +294,15 @@
     input.focus();
   };
 
-  /* ---------- старт ---------- */
+  /* ---------- старт (с учётом сохранённой сессии) ---------- */
   showBanner();
-  runBootSequence();
+
+  const resumedGui = localStorage.getItem("yuriko_session") === "gui";
+
+  runBootSequence(function () {
+    if (resumedGui && window.YurikoHub.openGUI) {
+      addLine("♻ Восстановлена прошлая сессия — возвращаемся в GUI.", "line-ok");
+      setTimeout(() => window.YurikoHub.openGUI(), 250);
+    }
+  });
 })();
