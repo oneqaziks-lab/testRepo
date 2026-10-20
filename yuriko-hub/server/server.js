@@ -392,6 +392,11 @@ const server = http.createServer(async (req, res) => {
       if (h) return await h(req, res);
       return json(res, 404, { error: "Нет такого эндпоинта YkoTube: " + key });
     }
+    // чистые адреса: /rave → rave.html, /ykotube → ykotube.html
+    if (p === "/rave" || p === "/rave/")   return serveStatic(req, res, "/rave.html");
+    if (p === "/ykotube" || p === "/ykotube/") return serveStatic(req, res, "/ykotube.html");
+    // защита данных БД от прямой раздачи через Node-сервер
+    if (p.startsWith("/server/data/")) { res.writeHead(403); return res.end("403 Forbidden"); }
     return serveStatic(req, res, p);
   } catch (e) {
     json(res, 500, { error: e.message });

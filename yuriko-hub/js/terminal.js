@@ -166,34 +166,39 @@
       addLine("Запуск графического окружения Yuriko Hub...", "line-ok");
       setTimeout(() => window.YurikoHub.openGUI(), 500);
     },
-    rave(arg) {
+    async rave(arg) {
       const a = (arg || "").trim();
+      const base = window.YURIKO_CONFIG ? window.YURIKO_CONFIG.apiBase : "http://localhost:8080/api";
       if (a === "status" && typeof fetch === "function") {
-        fetch("http://localhost:8080/api/rave/me").then(r => r.json()).then(d =>
+        fetch(base + "/rave/me").then(r => r.json()).then(d =>
           addLine(d.error ? "Rave: не авторизован (войди через GUI → Rave)" : "Rave: пользователь " + d.username + ", 2FA: " + (d.two_factor ? "вкл" : "выкл"), "line-info")
         ).catch(() => addLine("Rave API недоступен. Запусти: node server/server.js", "line-error"));
         return;
       }
       addLine("Открываю Rave — мессенджер с ботами-верификаторами...", "line-ok");
-      setTimeout(() => { window.YurikoHub.openGUI(); setTimeout(() => window.YurikoApps.open("rave"), 300); }, 400);
+      setTimeout(() => { window.YurikoHub.openGUI(); setTimeout(() => location.href = "rave.html", 300); }, 400);
     },
-    ykotube(arg) {
+    async ykotube(arg) {
       const a = (arg || "").trim();
+      const base = window.YURIKO_CONFIG ? window.YURIKO_CONFIG.apiBase : "http://localhost:8080/api";
       if (a === "stats" && typeof fetch === "function") {
-        fetch("http://localhost:8080/api/ykotube/stats").then(r => r.json()).then(d =>
+        fetch(base + "/ykotube/stats").then(r => r.json()).then(d =>
           addLine(`YkoTube БД @${d.host} (${d.user}, без пароля): channels=${d.channels} videos=${d.videos}`, "line-info")
         ).catch(() => addLine("YkoTube API недоступен. Запусти: node server/server.js", "line-error"));
         return;
       }
       addLine("Открываю YkoTube — видеохостинг со входом через Rave...", "line-ok");
-      setTimeout(() => { window.YurikoHub.openGUI(); setTimeout(() => window.YurikoApps.open("ykotube"), 300); }, 400);
+      setTimeout(() => { window.YurikoHub.openGUI(); setTimeout(() => location.href = "ykotube.html", 300); }, 400);
     },
     status() {
+      const base = window.YURIKO_CONFIG ? window.YURIKO_CONFIG.apiBase : "http://localhost:8080/api";
       addLine("yuriko-core   ● running (healthy)", "line-ok");
       addLine("yuriko-net    ● running (healthy)", "line-ok");
       addLine("yuriko-auth   ● running (healthy)", "line-ok");
-      addLine("rave-api      ● localhost:8080/api/rave (БД yarikodb, root@localhost)", "line-ok");
-      addLine("ykotube-api   ● localhost:8080/api/ykotube (БД ykotube)", "line-ok");
+      addLine("mysql         ● localhost:3306 (root, без пароля)", "line-ok");
+      addLine("apache        ● :80 / :443 (статика хаба)", "line-ok");
+      addLine("rave-api      ● " + base + "/rave (БД yarikodb)", "line-ok");
+      addLine("ykotube-api   ● " + base + "/ykotube (БД ykotube)", "line-ok");
       addLine("yuriko-gui    ○ standby — ждёт команды GUI", "line-warn");
     },
     projects() {

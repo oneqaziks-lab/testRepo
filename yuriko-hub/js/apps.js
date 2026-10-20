@@ -1,13 +1,14 @@
 /* ============================================================
    Yuriko Hub — встроенные приложения: Rave и YkoTube
-   Работают в связке с локальным API (http://localhost:8080):
-     /api/rave/*      — аккаунты, боты-верификаторы, коды, 2FA
-     /api/ykotube/*   — видео, вход через Rave
+   Автоопределение адреса API (см. js/config.js):
+     • страница открыта через Node-сервер (порт 8080) → тот же origin
+     • страница открыта через XAMPP/Apache (:80/:443)  → localhost:8080
+     • файл открыт двойным кликом (file://)            → localhost:8080
    Если сервер не запущен — показывается понятная подсказка.
    ============================================================ */
 
 (function () {
-  const API = "http://localhost:8080/api";
+  const API = window.YURIKO_CONFIG ? window.YURIKO_CONFIG.apiBase : "http://localhost:8080/api";
 
   /* ---------- общее состояние ---------- */
 
@@ -29,7 +30,9 @@
     if (opts.token) headers["Authorization"] = "Bearer " + opts.token;
     let res;
     try {
-      res = await fetch(API + pathname, {
+      // используем актуальный рабочий адрес (может быть переопределён health-check'ом)
+      const base = window.YURIKO_CONFIG ? window.YURIKO_CONFIG.apiBase : API;
+      res = await fetch(base + pathname, {
         method: opts.method || (opts.body ? "POST" : "GET"),
         headers,
         body: opts.body ? JSON.stringify(opts.body) : undefined,
@@ -47,12 +50,13 @@
       "<h3>⚠ Сервер хаба не отвечает</h3>" +
       "<p>Приложения Rave и YkoTube работают поверх локальной БД " +
       "(<code>root@localhost</code>, без пароля).</p>" +
-      "<p><b>Если хаб открыт через XAMPP (Apache)</b> — сервер Node нужно запустить отдельно, Apache его не поднимает:</p>" +
-      '<pre class="app-code">cd C:\\xampp\\htdocs\\yuriko-hub\nnode server/server.js\n<span class="app-comment"># http://localhost:8080 · БД: yarikodb + ykotube</span></pre>' +
-      "<p>Или откройте хаб прямо через Node-сервер (он сам раздаёт статику):</p>" +
+      "<p><b>Если хаб открыт через XAMPP (Apache :80/:443)</b> — сервер Node нужно запустить отдельно, Apache его не поднимает:</p>" +
+      '<pre class="app-code">cd C:\\xampp\\htdocs\\yuriko-hub\nnode server/server.js\n<span class="app-comment"># API: ' + API.slice(0, -4) + ' · БД: yarikodb + ykotube</span></pre>' +
+      "<p>Или откройте хаб прямо через Node-сервер (он сам раздаёт статику на :8080):</p>" +
       '<pre class="app-code">node server/server.js\n<span class="app-comment"># затем откройте http://localhost:8080</span></pre>' +
-      "<p>После запуска обновите страницу. Статус сервера: " +
-      '<a href="http://localhost:8080/api/health" target="_blank">/api/health</a></p></div>';
+      "<p>После запуска нажмите «Проверить и обновить» ниже. Статус сервера: " +
+      '<a href="' + API + '/health" target="_blank">' + API + '/health</a></p>' +
+      '<button class="btn btn-primary" onclick="location.reload()">↻ Проверить и обновить</button></div>';
   }
 
   /* ============================================================
@@ -268,6 +272,15 @@
       const d = await api("/rave/bots/chat", { body: { bot_username: this.currentBot, text } })
         .catch(() => ({ reply: "⚠ Сервер недоступен" }));
       log.insertAdjacentHTML("beforeend", `<div class="bot-msg bot">${esc(d.reply || d.error || "...")}</div>`);
+      // если бот выдал одноразовый код — автоподставляем его в форму регистрации
+      const m = (d.reply || "").match(/код[:\s]*(\d{6})/i);
+      if (m) {
+        const codeInput = document.getElementById("rg-code");
+        if (codeInput && !codeInput.value) {
+          codeInput.value = m[1];
+          log.insertAdjacentHTML("beforeend", '<div class="bot-msg bot">↩ Код автоматически подставлен в форму регистрации.</div>');
+        }
+      }
       log.scrollTop = log.scrollHeight;
     },
 
@@ -502,4 +515,13 @@ users: ${h.databases.yarikodb.users} · verificators: ${h.databases.yarikodb.ver
   }
 
   window.YurikoApps = { open, close, renderCurrent, state, apps };
+
+  /* ---- автопроверка API при старте: если страница открыта через XAMPP,
+     а Node живёт на другом адресе — health-check подберёт рабочий base ---- */
+  if (window.YURIKO_checkApi) {
+    window.YURIKO_checkApi().then((r) => {
+      window.YURIKO_CONFIG.apiOnline = r.ok;
+      if (r.ok && r.base !== API) console.log("[Yuriko] API →", r.base);
+    });
+  }
 })();
