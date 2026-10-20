@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yuriko Hub</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===================== ТЕРМИНАЛ ===================== -->
+  <div id="terminal-screen" class="screen active">
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="terminal-title">user@yuriko-hub: ~ — bash</span>
+      </div>
+      <div id="terminal-output" class="terminal-output"></div>
+      <div class="terminal-input-line">
+        <span class="prompt">user@yuriko-hub:~$</span>
+        <input id="terminal-input" type="text" autocomplete="off" autofocus spellcheck="false" />
+        <span class="cursor-block" id="cursor-hint"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== GUI ХАБА ===================== -->
+  <div id="gui-screen" class="screen">
+    <header class="gui-header">
+      <div class="logo">
+        <span class="logo-mark">◈</span>
+        <span class="logo-text">Yuriko&nbsp;<b>Hub</b></span>
+      </div>
+      <nav class="gui-nav">
+        <a href="#" class="nav-link active" data-section="projects">Проекты</a>
+        <a href="#" class="nav-link" data-section="about">О хабе</a>
+        <button id="btn-open-ai" class="btn-ai" title="Открыть Yuriko AI Assistant (Ctrl+J)">✦ AI Assistant</button>
+        <button id="btn-exit-gui" class="btn-exit" title="Вернуться в терминал">&lt;/&gt; Terminal</button>
+      </nav>
+    </header>
+
+    <main class="gui-main">
+      <section id="section-projects" class="gui-section active">
+        <h1 class="section-title">Наши проекты</h1>
+        <p class="section-subtitle">Центральный хаб между проектами Yuriko. Здесь скоро появится всё самое интересное.</p>
+
+        <div class="projects-grid" id="projects-grid">
+          <!-- карточки генерируются из js/projects.js -->
+        </div>
+      </section>
+
+      <section id="section-about" class="gui-section">
+        <h1 class="section-title">О хабе</h1>
+        <p class="section-subtitle">
+          Yuriko Hub — это единая точка входа для всех проектов команды.
+          Загрузочный терминал имитирует старт Linux-системы, а команда
+          <code>GUI</code> открывает графическую часть хаба.
+        </p>
+        <div class="about-card">
+          <h2>Как это работает</h2>
+          <ul>
+            <li>При входе автоматически выполняются 80 команд загрузки системы</li>
+            <li>После завершения загрузки становится доступна команда <code>GUI</code></li>
+            <li><code>GUI</code> — переключение в графический режим хаба</li>
+            <li><code>help</code> — список доступных команд терминала</li>
+            <li><code>ai &lt;вопрос&gt;</code> — спросить Yuriko AI прямо из терминала</li>
+          </ul>
+        </div>
+        <div class="about-card">
+          <h2>Yuriko AI Assistant ✦</h2>
+          <p>
+            Встроенный умный ассистент: понимает вопросы на русском и английском,
+            ищет ответы по базе знаний через BM25-индекс, решает математику
+            собственным парсером выражений (скобки, степени, корни, проценты)
+            и помнит контекст диалога. Работает полностью локально в браузере.
+          </p>
+          <ul>
+            <li>Открыть: кнопка <b>✦ AI Assistant</b>, команда <code>ai</code> в терминале или <code>Ctrl+J</code></li>
+            <li>Попробуй: «Что такое хаб?», «Сколько будет (12+8)*3 − sqrt(25)?», «15% от 2400», «пошути»</li>
+            <li>Slash-команды: <code>/skills</code>, <code>/status</code>, <code>/clear</code></li>
+          </ul>
+        </div>
+        <div class="about-card">
+          <h2>Экосистема: Rave + YkoTube + БД</h2>
+          <p>
+            <b>Rave</b> 💬 — мессенджер хаба: регистрация только через ботов-верификаторов
+            с кодами доступа, двухфакторная аутентификация (6-значные коды от @Yuriko_AuthBot).
+            <b>YkoTube</b> 📺 — видеохостинг: аккаунты не создаются отдельно — вход и регистрация
+            выполняются через Rave (единый OAuth-подобный токен).
+          </p>
+          <ul>
+            <li>БД: две базы — <code>yarikodb</code> (Rave) и <code>ykotube</code> (YkoTube)</li>
+            <li>Подключение: <code>root@localhost</code>, пользователь root <b>без пароля</b></li>
+            <li>Запуск сервера: <code>node server/server.js</code> → http://localhost:8080</li>
+            <li>Схема MySQL: <code>sql/schema.sql</code> · команды: <code>rave</code>, <code>ykotube</code></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="gui-footer">
+      Yuriko Hub © 2026 — сделано с ❤️ для будущих проектов
+    </footer>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/boot-commands.js"></script>
+  <script src="js/ai-engine.js"></script>
+  <script src="js/terminal.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/gui.js"></script>
+  <script src="js/ai-ui.js"></script>
+</body>
+</html>

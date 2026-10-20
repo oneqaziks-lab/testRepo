@@ -1,0 +1,36 @@
+# ============================================================
+#  Yuriko Hub — правила для Apache (XAMPP, порты :80 / :443)
+#  Положите папку yuriko-hub в C:\xampp\htdocs\ и открывайте
+#  http://localhost/yuriko-hub/  (или https:// при включённом SSL)
+#
+#  ВАЖНО: Apache раздаёт только статику. API-сервер Node
+#  (порт 8080) нужно запускать отдельно:
+#     cd C:\xampp\htdocs\yuriko-hub && node server/server.js
+#  Браузер сам найдёт его по адресу host:8080 (js/config.js).
+# ============================================================
+
+DirectoryIndex index.html
+
+# Чистые адреса: /rave -> rave.html, /ykotube -> ykotube.html
+RewriteEngine On
+# RewriteBase /yuriko-hub/   # раскомментируйте, если хаб лежит в htdocs/yuriko-hub
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^rave/?$          rave.html    [L]
+RewriteRule ^ykotube/?$       ykotube.html [L]
+
+# CORS на случай, если проксируете /api через Apache (необязательно)
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+# Кеш статики (короткий — чтобы обновления с GitHub подтягивались быстро)
+<FilesMatch "\.(html|css|js)$">
+  Header set Cache-Control "max-age=60"
+</FilesMatch>
+
+# Не отдавать служебные данные БД наружу
+<IfModule mod_rewrite.c>
+  RewriteRule ^server/data/ - [F,L]
+</IfModule>
+Options -Indexes
