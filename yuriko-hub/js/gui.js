@@ -1,43 +1,27 @@
 /* ============================================================
-   GUI Yuriko Hub: переключение экранов и разделов
+   GUI Yuriko Hub — панель умного дома
+   Навигация по разделам через боковую панель.
    ============================================================ */
 
 (function () {
-  const termScreen = document.getElementById("terminal-screen");
-  const guiScreen  = document.getElementById("gui-screen");
-
-  /* ---------- открыть / закрыть GUI ---------- */
-
-  function openGUI() {
-    termScreen.classList.remove("active");
-    guiScreen.classList.add("active");
-    document.body.style.overflow = "auto"; // разрешить прокрутку в GUI
-  }
-
-  function closeGUI() {
-    guiScreen.classList.remove("active");
-    termScreen.classList.add("active");
-    if (window.YurikoHub && window.YurikoHub.backToTerminal) {
-      window.YurikoHub.backToTerminal();
-    }
-  }
+  const guiScreen = document.getElementById("gui-screen");
+  if (!guiScreen) return;
 
   window.YurikoHub = window.YurikoHub || {};
-  window.YurikoHub.openGUI = openGUI;
+  // совместимость с apps.js / ai-ui.js (открывали GUI из терминала)
+  window.YurikoHub.openGUI = function () { guiScreen.classList.add("active"); };
+  window.YurikoHub.backToTerminal = function () {}; // терминал убран — ничего не делаем
 
-  document.getElementById("btn-exit-gui").addEventListener("click", closeGUI);
-
-  /* ---------- кнопка AI Assistant в шапке GUI ---------- */
-  document.getElementById("btn-open-ai").addEventListener("click", () => {
+  /* ---------- кнопка AI Assistant в шапке ---------- */
+  const btnAI = document.getElementById("btn-open-ai");
+  if (btnAI) btnAI.addEventListener("click", () => {
     if (window.YurikoAUI) window.YurikoAUI.open();
   });
 
-  /* ---------- навигация по разделам GUI ---------- */
-
-  document.querySelectorAll(".nav-link").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+  /* ---------- навигация по разделам (боковая панель) ---------- */
+  document.querySelectorAll(".home-nav-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      document.querySelectorAll(".home-nav-link").forEach(l => l.classList.remove("active"));
       link.classList.add("active");
 
       document.querySelectorAll(".gui-section").forEach(s => s.classList.remove("active"));
@@ -46,10 +30,11 @@
     });
   });
 
-  /* ---------- клавиатурный шорткат: Ctrl+` закрывает GUI ---------- */
+  /* ---------- клавиатурный шорткат: Ctrl+J открывает AI ---------- */
   document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey && e.key === "`" && guiScreen.classList.contains("active")) {
-      closeGUI();
+    if (e.ctrlKey && (e.key === "j" || e.key === "л") && window.YurikoAUI) {
+      e.preventDefault();
+      window.YurikoAUI.toggle ? window.YurikoAUI.toggle() : window.YurikoAUI.open();
     }
   });
 })();
