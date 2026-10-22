@@ -3,163 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yuriko Hub</title>
+  <title>Yuriko Hub · мягкий графический хаб</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/pastel.css" />
 </head>
-<body class="home-body">
+<body class="hub-body">
 
-  <!-- ===================== ПАНЕЛЬ УМНОГО ДОМА ===================== -->
-  <div id="gui-screen" class="screen active home-app">
+  <!-- фон -->
+  <div id="wallpaper"></div>
+  <div id="particles"></div>
 
-    <!-- ---------- БОКОВАЯ ПАНЕЛЬ ---------- -->
-    <aside class="home-sidebar">
+  <div class="hub-app">
+
+    <!-- ---------- САЙДБАР (слева) ---------- -->
+    <aside class="sidebar">
       <div class="logo">
         <span class="logo-mark">⌂</span>
         <span class="logo-text">Yuriko&nbsp;<b>Hub</b></span>
       </div>
-      <p class="sidebar-caption">Хаб проектов · pastel UI</p>
+      <p class="side-caption">графический хаб проектов · v6.0</p>
 
-      <nav class="home-nav">
-        <button class="home-nav-link active" data-section="projects">🚀&nbsp; Проекты</button>
-        <button class="home-nav-link" data-section="devices">💡&nbsp; Устройства</button>
-        <button class="home-nav-link" data-section="scenes">🎬&nbsp; Сцены</button>
-        <button class="home-nav-link" data-section="settings">⚙️&nbsp; Настройки</button>
-        <button class="home-nav-link" data-section="about">ℹ️&nbsp; О системе</button>
+      <nav class="nav">
+        <button class="nav-link active" data-section="projects">🚀&nbsp; Проекты</button>
+        <button class="nav-link" data-section="devices">💡&nbsp; Устройства</button>
+        <button class="nav-link" data-section="scenes">🎬&nbsp; Сцены</button>
+        <button class="nav-link" data-section="settings">⚙️&nbsp; Настройки</button>
+        <button class="nav-link" data-section="about">ℹ️&nbsp; О системе</button>
       </nav>
 
-      <button id="btn-settings" class="btn-settings" title="Настройки оформления (Ctrl+M)">
-        🎨&nbsp;<span>Оформление</span>
-      </button>
-
-      <div class="sidebar-footer">
+      <div class="side-footer">
         <div class="gw-status">
           <span class="gw-dot" id="gw-dot"></span>
-          <span id="gw-text">Шлюз: подключение…</span>
+          <span id="gw-text">Шлюз: проверка…</span>
         </div>
-        <div class="clock-block">
+        <div>
           <div class="clock-time" id="clock-time">--:--</div>
           <div class="clock-date" id="clock-date"></div>
         </div>
       </div>
     </aside>
 
-    <!-- ---------- ОСНОВНАЯ ОБЛАСТЬ ---------- -->
-    <div class="home-content">
-      <header class="home-topbar">
-        <div class="greeting" id="greeting">Добрый вечер, Yuriko 👋</div>
-        <div class="topbar-right" style="display:flex;gap:10px;align-items:center">
-          <button id="btn-wall-next" class="btn-ai" title="Сменить обои (Ctrl+W)" style="padding:8px 12px">🎨</button>
-          <button id="btn-open-ai" class="btn-ai" title="Открыть Yuriko AI Assistant (Ctrl+J)">✦ AI Assistant</button>
+    <!-- ---------- КОНТЕНТ (справа) ---------- -->
+    <main class="main">
+      <header class="topbar">
+        <div class="greeting" id="greeting">Здравствуйте 🌿</div>
+        <div class="top-actions">
+          <button class="btn btn-sm" id="btn-wp-quick" title="Следующие обои (Ctrl+W)">🎨 Обои</button>
+          <button class="btn btn-primary btn-sm" id="btn-ai-top">✦ AI Assistant</button>
         </div>
       </header>
 
-      <main class="home-main">
+      <div class="scroll">
 
-        <!-- ===== РАЗДЕЛ: ОБЗОР ===== -->
-        <section id="section-dashboard" class="gui-section">
-          <div class="stat-grid">
-            <div class="stat-card"><div class="stat-value" id="stat-temp">22.5°C</div><div class="stat-label">🌡 Температура</div></div>
-            <div class="stat-card"><div class="stat-value" id="stat-hum">45%</div><div class="stat-label">💧 Влажность</div></div>
-            <div class="stat-card"><div class="stat-value" id="stat-on">—</div><div class="stat-label">🔌 Активных устройств</div></div>
-            <div class="stat-card"><div class="stat-value" id="stat-power">— Вт</div><div class="stat-label">⚡ Потребление</div></div>
+        <!-- ПРОЕКТЫ -->
+        <section class="section active" id="sec-projects">
+          <h2 class="sec-title">Проекты хаба</h2>
+          <p class="sec-sub">Приложения и сервисы, которые живут внутри Yuriko Hub</p>
+          <div class="grid" id="projects-grid"></div>
+        </section>
+
+        <!-- УСТРОЙСТВА -->
+        <section class="section" id="sec-devices">
+          <h2 class="sec-title">Карта сети</h2>
+          <p class="sec-sub" id="net-note">Все сетевые устройства, подключённые к хабу — запрашиваются с сервера в реальном времени.</p>
+          <div class="stats" id="network-stats"></div>
+          <div class="grid" id="network-grid"><div class="card"><p class="proj-desc">Загрузка устройств…</p></div></div>
+
+          <h2 class="sec-title">Умный дом</h2>
+          <p class="sec-sub">Управляемые smart-устройства дома</p>
+          <div class="stats" id="device-stats"></div>
+          <div class="chips" id="room-chips"></div>
+          <div class="grid" id="device-grid"></div>
+        </section>
+
+        <!-- СЦЕНЫ -->
+        <section class="section" id="sec-scenes">
+          <h2 class="sec-title">Сцены</h2>
+          <p class="sec-sub">Одно нажатие — несколько устройств сразу</p>
+          <div class="grid" id="scenes-grid"></div>
+        </section>
+
+        <!-- НАСТРОЙКИ -->
+        <section class="section" id="sec-settings">
+          <h2 class="sec-title">Настройки оформления</h2>
+
+          <div class="set-block">
+            <h3 class="sec-title" style="font-size:15px">🖼 Обои <button class="btn btn-sm" id="btn-random-wp" style="margin-left:8px">🎲 Случайные</button></h3>
+            <div class="wp-grid" id="wp-grid"></div>
           </div>
 
-          <h2 class="block-title">Быстрые действия</h2>
-          <div class="quick-row" id="quick-row"><!-- кнопки генерируются из js/home.js --></div>
-
-          <h2 class="block-title">Избранные устройства</h2>
-          <div class="device-grid" id="fav-devices"></div>
-        </section>
-
-        <!-- ===== РАЗДЕЛ: УСТРОЙСТВА ===== -->
-        <section id="section-devices" class="gui-section">
-          <h1 class="section-title">Устройства</h1>
-          <p class="section-subtitle">Клик по карточке — включить/выключить. Ползунки и селекторы применяются мгновенно.</p>
-          <div class="room-tabs" id="room-tabs"></div>
-          <div class="device-grid" id="devices-grid"></div>
-        </section>
-
-        <!-- ===== РАЗДЕЛ: СЦЕНЫ ===== -->
-        <section id="section-scenes" class="gui-section">
-          <h1 class="section-title">Сцены</h1>
-          <p class="section-subtitle">Наборы команд для устройств, применяемые одним нажатием.</p>
-          <div class="scenes-grid" id="scenes-grid"></div>
-        </section>
-
-        <!-- ===== РАЗДЕЛ: ПРОЕКТЫ ===== -->
-        <section id="section-projects" class="gui-section active">
-          <h1 class="section-title">Наши проекты</h1>
-          <p class="section-subtitle">Экосистема Yuriko: мессенджер, видеохостинг и ассистенты живут здесь же, в хабе.</p>
-          <div class="projects-grid" id="projects-grid"></div>
-        </section>
-
-        <!-- ===== РАЗДЕЛ: НАСТРОЙКИ ===== -->
-        <section id="section-settings" class="gui-section">
-          <h1 class="section-title">Настройки</h1>
-          <p class="section-subtitle">Оформление хаба — обои, акцентный цвет и приколюшки. Всё сохраняется в браузере.</p>
-
-          <div class="about-card">
-            <h2>🖼 Обои</h2>
-            <p class="section-subtitle" style="margin-bottom:14px">Мягкие светлые градиенты по умолчанию. Тёмные варианты тоже есть — текст сам адаптируется.</p>
-            <div id="settings-walls"></div>
+          <div class="set-block">
+            <h3 class="sec-title" style="font-size:15px">🎨 Акцентный цвет</h3>
+            <div class="swatches" id="accent-row"></div>
           </div>
 
-          <div class="about-card">
-            <h2>🎯 Акцентный цвет</h2>
-            <p class="section-subtitle" style="margin-bottom:14px">Определяет цвет кнопок, переключателей и подсветки.</p>
-            <div id="settings-accents" class="accent-row"></div>
-          </div>
-
-          <div class="about-card">
-            <h2>✨ Приколюшки</h2>
-            <div class="toggle-row"><label for="tg-particles">Живые частицы на фоне</label><span id="tg-particles"></span></div>
-            <div class="toggle-row"><label for="tg-emoji">Плавающие эмодзи при смене обоев</label><span id="tg-emoji"></span></div>
-            <div class="toggle-row"><label for="tg-round">Максимально круглые карточки</label><span id="tg-round"></span></div>
-            <div class="toggle-row"><label for="tg-glass">Стекло и размытие (blur)</label><span id="tg-glass"></span></div>
-            <button id="btn-reset-style" class="btn btn-danger" style="margin-top:10px">↺ Сбросить всё к мягкому стандарту</button>
+          <div class="set-block">
+            <h3 class="sec-title" style="font-size:15px">✨ Приколюшки</h3>
+            <div class="toggle-row"><div><div class="toggle-label">Парящие частицы</div><div class="toggle-hint">мягкие точки медленно всплывают на фоне</div></div>
+              <label class="switch"><input type="checkbox" id="tg-particles"><span class="track"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Эмодзи-салют</div><div class="toggle-hint">🌸✨ при смене обоев</div></div>
+              <label class="switch"><input type="checkbox" id="tg-confetti"><span class="track"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Максимальная округлость</div><div class="toggle-hint">карточки становятся ещё мягче</div></div>
+              <label class="switch"><input type="checkbox" id="tg-round"><span class="track"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Стекло и размытие</div><div class="toggle-hint">blur-эффект карточек и панели</div></div>
+              <label class="switch"><input type="checkbox" id="tg-glass"><span class="track"></span></label></div>
+            <div style="margin-top:12px"><button class="btn btn-danger btn-sm" id="btn-reset">↺ Сбросить всё</button></div>
           </div>
         </section>
 
-        <!-- ===== РАЗДЕЛ: О СИСТЕМЕ ===== -->
-        <section id="section-about" class="gui-section">
-          <h1 class="section-title">О системе</h1>
-          <p class="section-subtitle">Yuriko Hub — графический хаб проектов команды в мягких пастельных тонах.</p>
-          <div class="about-card">
-            <h2>Что внутри</h2>
-            <ul>
-              <li><b>Проекты</b> — витрина экосистемы: Rave, YkoTube, AI Assistant и другие (главный раздел хаба)</li>
-              <li><b>Устройства и Сцены</b> — локальная панель-декор для настроения: тумблеры, ползунки и сцены одним нажатием</li>
-              <li><b>✦ AI Assistant</b> — умный ассистент: база знаний BM25, математика, память диалога (Ctrl+J)</li>
-              <li><b>🖼 Обои</b> — 8 пастельных тем, выбор сохраняется между перезагрузками (кнопка 🎨 или Ctrl+W)</li>
-              <li>Состояния панели хранятся локально (<code>localStorage</code>) и переживают перезагрузку страницы</li>
-            </ul>
-          </div>
-          <div class="about-card">
-            <h2>Экосистема: Rave + YkoTube + БД</h2>
-            <p>
-              <b>Rave</b> 💬 — мессенджер хаба: регистрация через ботов-верификаторов, двухфакторная аутентификация.
-              <b>YkoTube</b> 📺 — видеохостинг: вход только через аккаунт Rave.
-            </p>
-            <ul>
-              <li>БД: <code>yarikodb</code> (Rave) и <code>ykotube</code> (YkoTube), пользователь <code>root@localhost</code> без пароля</li>
-              <li>Страницы приложений: <a href="rave.html">rave.html</a> · <a href="ykotube.html">ykotube.html</a></li>
-            </ul>
+        <!-- О СИСТЕМЕ -->
+        <section class="section" id="sec-about">
+          <h2 class="sec-title">О системе</h2>
+          <div class="about-grid">
+            <div class="card"><div id="about-info"></div></div>
+            <div class="card">
+              <p class="proj-desc" style="flex:none">
+                <b>Yuriko Hub</b> — локальный графический хаб: карта домашней сети (реальные устройства из ARP),
+                умный дом со сценами, мессенджер Rave с 2FA-ботами, видеохостинг YkoTube со входом через Rave
+                и встроенный AI-ассистент. Работает поверх XAMPP: Apache раздаёт страницы (порты 80/443),
+                Node-сервер — API и БД (root@localhost, порт 8080).
+              </p>
+              <p class="proj-desc" style="flex:none;margin-top:10px">
+                Автообновление с GitHub: <code>update.bat</code> (Windows) или <code>update.sh</code> (Linux/macOS/cron).
+              </p>
+            </div>
           </div>
         </section>
-      </main>
 
-      <footer class="gui-footer">Yuriko Hub © 2026 — пастельный хаб проектов 🌸</footer>
-    </div>
+      </div>
+    </main>
   </div>
 
+  <!-- тосты -->
+  <div id="toast-zone"></div>
+
+  <!-- скрипты: конфиг → данные → устройства → ядро GUI → AI -->
   <script src="js/config.js"></script>
-  <script src="js/ai-engine.js"></script>
   <script src="js/projects.js"></script>
-  <script src="js/apps.js"></script>
-  <script src="js/home.js"></script>
-  <script src="js/gui.js"></script>
+  <script src="js/devices.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ai-engine.js"></script>
   <script src="js/ai-ui.js"></script>
-  <script src="js/fun.js"></script>
+  <script>window.hubAI = window.YurikoAUI;</script>
 </body>
 </html>
