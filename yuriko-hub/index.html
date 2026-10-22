@@ -20,12 +20,11 @@
         <span class="logo-mark">⌂</span>
         <span class="logo-text">Yuriko&nbsp;<b>Hub</b></span>
       </div>
-      <p class="side-caption">графический хаб проектов · v6.0</p>
+      <p class="side-caption">графический хаб проектов · v6.1</p>
 
       <nav class="nav">
         <button class="nav-link active" data-section="projects">🚀&nbsp; Проекты</button>
-        <button class="nav-link" data-section="devices">💡&nbsp; Устройства</button>
-        <button class="nav-link" data-section="scenes">🎬&nbsp; Сцены</button>
+        <button class="nav-link" data-section="devices">🌐&nbsp; Карта сети</button>
         <button class="nav-link" data-section="settings">⚙️&nbsp; Настройки</button>
         <button class="nav-link" data-section="about">ℹ️&nbsp; О системе</button>
       </nav>
@@ -61,25 +60,15 @@
           <div class="grid" id="projects-grid"></div>
         </section>
 
-        <!-- УСТРОЙСТВА -->
+        <!-- КАРТА СЕТИ -->
         <section class="section" id="sec-devices">
-          <h2 class="sec-title">Карта сети</h2>
-          <p class="sec-sub" id="net-note">Все сетевые устройства, подключённые к хабу — запрашиваются с сервера в реальном времени.</p>
+          <div style="display:flex;align-items:center;gap:10px">
+            <h2 class="sec-title" style="margin:0">Карта сети</h2>
+            <button class="btn btn-sm" id="btn-net-refresh" title="Обновить список устройств">🔄 Обновить</button>
+          </div>
+          <p class="sec-sub" id="net-note">Все сетевые устройства, подключённые к хабу — запрашиваются с сервера в реальном времени (ARP-таблица ОС).</p>
           <div class="stats" id="network-stats"></div>
           <div class="grid" id="network-grid"><div class="card"><p class="proj-desc">Загрузка устройств…</p></div></div>
-
-          <h2 class="sec-title">Умный дом</h2>
-          <p class="sec-sub">Управляемые smart-устройства дома</p>
-          <div class="stats" id="device-stats"></div>
-          <div class="chips" id="room-chips"></div>
-          <div class="grid" id="device-grid"></div>
-        </section>
-
-        <!-- СЦЕНЫ -->
-        <section class="section" id="sec-scenes">
-          <h2 class="sec-title">Сцены</h2>
-          <p class="sec-sub">Одно нажатие — несколько устройств сразу</p>
-          <div class="grid" id="scenes-grid"></div>
         </section>
 
         <!-- НАСТРОЙКИ -->
@@ -118,7 +107,7 @@
             <div class="card">
               <p class="proj-desc" style="flex:none">
                 <b>Yuriko Hub</b> — локальный графический хаб: карта домашней сети (реальные устройства из ARP),
-                умный дом со сценами, мессенджер Rave с 2FA-ботами, видеохостинг YkoTube со входом через Rave
+                мессенджер Rave с 2FA-ботами, видеохостинг YkoTube со входом через Rave
                 и встроенный AI-ассистент. Работает поверх XAMPP: Apache раздаёт страницы (порты 80/443),
                 Node-сервер — API и БД (root@localhost, порт 8080).
               </p>

@@ -152,44 +152,10 @@
         const b = document.createElement("button"); b.className = "btn btn-primary btn-sm"; b.textContent = "Карта сети →";
         b.onclick = () => showSection("devices");
         btnRow.append(b);
-      } else {
-        const b = document.createElement("button"); b.className = "btn btn-sm"; b.textContent = "В разработке"; b.disabled = true; b.style.opacity = ".5";
+      } else {        const b = document.createElement("button"); b.className = "btn btn-sm"; b.textContent = "В разработке"; b.disabled = true; b.style.opacity = ".5";
         btnRow.append(b);
       }
       card.append(btnRow);
-      grid.append(card);
-    });
-  }
-
-  /* ---------- сцены ---------- */
-  const SCENES = [
-    { id: "morning", emoji: "🌅", name: "Доброе утро", desc: "Свет 80%, шторы открыты, чайник включён, новости в колонку.",
-      act: () => { dev("light-living", { on: true, value: 80 }); dev("curtain", { on: true, value: 100 }); dev("kettle", { on: true }); dev("speaker", { on: true, value: 30 }); } },
-    { id: "movie", emoji: "🎬", name: "Режим «Кино»", desc: "Люстра на 15%, телевизор вкл., шторы закрыты.",
-      act: () => { dev("light-living", { on: true, value: 15 }); dev("tv", { on: true }); dev("curtain", { on: true, value: 0 }); } },
-    { id: "cozy", emoji: "🕯", name: "Уютный вечер", desc: "Ночник вкл., тёплый пол 27°, подсветка 40%.",
-      act: () => { dev("bedside", { on: true, value: 35 }); dev("floor", { on: true, value: 27 }); dev("light-kitchen", { on: true, value: 40 }); } },
-    { id: "night", emoji: "🌙", name: "Спокойной ночи", desc: "Всё выключить, замок проверить, свет минимальный.",
-      act: () => { ["light-living","tv","kettle","coffee","speaker","vacuum"].forEach(id => dev(id, { on: false })); dev("bedside", { on: false }); dev("curtain", { on: true, value: 0 }); } },
-    { id: "away", emoji: "🚪", name: "Я ушёл из дома", desc: "Экономия: всё off, камера и замок — на охране.",
-      act: () => { SMART_ON().forEach(d => dev(d, { on: false })); window.hubToast("🔒 Охранный режим активен"); } },
-    { id: "welcome", emoji: "🏡", name: "Добро пожаловать домой", desc: "Свет в прихожей и кухне, кондиционер 24°, музыка.",
-      act: () => { dev("light-kitchen", { on: true, value: 75 }); dev("ac", { on: true, value: 24 }); dev("speaker", { on: true, value: 35 }); } }
-  ];
-  function dev(id, patch) { window.hubDevices.set(id, patch); }
-  function SMART_ON() { return window.hubDevices.SMART.filter(d => d.on && d.kind !== "sensor").map(d => d.id); }
-
-  function renderScenes() {
-    const grid = document.getElementById("scenes-grid");
-    grid.innerHTML = "";
-    SCENES.forEach(s => {
-      const card = document.createElement("div"); card.className = "card scene-card";
-      card.innerHTML = `<div class="scene-emoji">${s.emoji}</div><div class="scene-name"></div><p class="scene-desc"></p>`;
-      card.querySelector(".scene-name").textContent = s.name;
-      card.querySelector(".scene-desc").textContent = s.desc;
-      const b = document.createElement("button"); b.className = "btn btn-primary btn-sm"; b.textContent = "Активировать";
-      b.onclick = () => { s.act(); window.hubToast(s.emoji + " Сцена «" + s.name + "» активна"); };
-      card.append(b);
       grid.append(card);
     });
   }
@@ -241,7 +207,7 @@
   function fillAbout() {
     const el = document.getElementById("about-info");
     el.innerHTML = `
-      <div class="kv"><span>Версия хаба</span><b>v6.0 · soft pastel</b></div>
+      <div class="kv"><span>Версия хаба</span><b>v6.1 · soft pastel</b></div>
       <div class="kv"><span>Интерфейс</span><b>только графический (без терминала)</b></div>
       <div class="kv"><span>API-сервер</span><b class="mono">${window.HUB_CONFIG.apiBase}</b></div>
       <div class="kv"><span>БД Rave</span><b>yarikodb · root@localhost</b></div>
@@ -266,7 +232,6 @@
     applyAccent(settings.accent);
     startParticles();
     renderProjects();
-    renderScenes();
     renderSettings();
     fillAbout();
     tickClock(); setInterval(tickClock, 10000);
@@ -275,6 +240,8 @@
     document.querySelectorAll(".nav-link").forEach(n => n.onclick = () => showSection(n.dataset.section));
     document.getElementById("btn-wp-quick").onclick = nextWallpaper;
     document.getElementById("btn-ai-top").onclick = () => window.hubAI.open();
+    const btnNet = document.getElementById("btn-net-refresh");
+    if (btnNet) btnNet.onclick = () => window.hubDevices.refresh();
 
     const saved = localStorage.getItem("hub.section") || "projects";
     showSection(saved);

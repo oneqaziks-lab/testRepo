@@ -498,8 +498,24 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+function friendlyError(e) {
+  if (e.code === "EADDRINUSE") {
+    console.error(`\n  ✖ Порт ${PORT} уже занят другим экземпляром хаба.`);
+    console.error(`    Скорее всего, сервер уже запущен в другом окне — так и должно быть!`);
+    console.error(`    Просто откройте в браузере http://localhost:${PORT} — хаб уже работает.`);
+    console.error(`    Если хотите поднять второй экземпляр: set PORT=8081 && node server/server.js\n`);
+  } else if (e.code === "EACCES") {
+    console.error(`\n  ✖ Нет прав на прослушивание порта ${PORT} (запустите от администратора или смените порт).\n`);
+  } else {
+    console.error("\n  ✖ Ошибка запуска сервера:", e.message, "\n");
+  }
+  process.exit(1);
+}
+
+server.on("error", friendlyError);
+
 server.listen(PORT, HOST, () => {
-  console.log(`\n  ◈ Yuriko Hub API запущен:  http://${HOST}:${PORT}`);
+  console.log(`\n  ◈ Yuriko Hub API запущен:  http://localhost:${PORT}`);
   console.log(`  ◈ БД: root@${DB_CONNECTION.host} (без пароля), базы: yarikodb + ykotube`);
   console.log(`  ◈ Данные: ${DATA_DIR}/\n`);
 });
