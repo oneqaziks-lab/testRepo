@@ -657,7 +657,8 @@ html, body {
 
 /* ============ ПАНЕЛЬ УМНОГО ДОМА (v4.0) ============ */
 .home-body { overflow: hidden; }
-.home-app { display: flex !important; height: 100vh; }
+.home-app { display: block !important; height: 100vh; }
+.home-app.active { display: flex !important; }
 
 .home-sidebar {
   width: 250px; min-width: 250px;
