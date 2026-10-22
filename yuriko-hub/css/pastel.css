@@ -5,20 +5,21 @@
    ============================================================ */
 
 :root {
-  --p-bg: #f4efe9;
-  --p-ink: #3f3a4a;
-  --p-ink-soft: #7d7688;
-  --p-card: rgba(255, 255, 255, .82);
+  --p-bg: #f6f3fa;
+  --p-ink: #453f52;
+  --p-ink-soft: #8b8497;
+  --p-card: rgba(255, 255, 255, .88);
   --p-card-solid: #fffdfa;
-  --p-border: rgba(120, 100, 140, .16);
-  --p-shadow: 0 10px 30px rgba(90, 70, 110, .12);
-  --p-shadow-lg: 0 18px 45px rgba(90, 70, 110, .18);
-  --p-accent: #b48cc4;        /* лаванда */
+  --p-border: rgba(120, 100, 140, .14);
+  --p-shadow: 0 10px 30px rgba(90, 70, 110, .10);
+  --p-shadow-lg: 0 18px 45px rgba(90, 70, 110, .16);
+  --p-accent: #b48cc4;        /* лаванда (заменяется из настроек) */
   --p-accent-deep: #8e6aa6;
-  --p-mint: #8fd0bd;
-  --p-peach: #ffb88c;
-  --p-sky: #9ecbe8;
-  --p-rose: #ff9fb2;
+  --p-accent-2: #aecfec;      /* второй цвет градиента кнопок */
+  --p-mint: #a5d8c5;
+  --p-peach: #f5cfae;
+  --p-sky: #aed3ea;
+  --p-rose: #f2bcc9;
   --p-radius: 18px;
 }
 
@@ -31,33 +32,67 @@ body.home-body {
   background: var(--p-bg);
 }
 
-/* ---------- обои (задаются data-wall на <body>) ---------- */
+/* ---------- обои (задаются data-wall на <body>) — мягкие и светлые ---------- */
 body::before {
   content: "";
   position: fixed; inset: 0; z-index: -2;
   transition: opacity .5s ease;
 }
-body[data-wall="dawn"]::before    { background: linear-gradient(135deg,#ffe9e3 0%,#ffd6e8 35%,#e3d9ff 70%,#d6ecff 100%); }
-body[data-wall="mint"]::before    { background: linear-gradient(135deg,#e6f7ef 0%,#d2f0e4 40%,#dff2fa 100%); }
-body[data-wall="lavender"]::before{ background: linear-gradient(135deg,#f3edff 0%,#e8dcff 45%,#ffe9f6 100%); }
-body[data-wall="peach"]::before   { background: linear-gradient(135deg,#fff3e6 0%,#ffe4d1 45%,#ffd9e8 100%); }
-body[data-wall="ocean"]::before   { background: linear-gradient(135deg,#e8f4fb 0%,#dcedf9 40%,#e6f6f1 100%); }
-body[data-wall="dusk"]::before    { background: linear-gradient(135deg,#2e2a45 0%,#4a3f63 55%,#6b5a7e 100%); }
-body[data-wall="night"]::before   { background: linear-gradient(135deg,#20242e 0%,#2f3547 60%,#3d3a52 100%); }
-body[data-wall="forest"]::before  { background: linear-gradient(135deg,#243530 0%,#33503f 55%,#4a6b52 100%); }
+body[data-wall="cloud"]::before    { background: linear-gradient(160deg,#f7f4fb 0%,#eef3fa 55%,#f6f0f8 100%); }
+body[data-wall="dawn"]::before     { background: linear-gradient(135deg,#fdf1ec 0%,#fbe4ee 40%,#ece5fb 75%,#e2f0fa 100%); }
+body[data-wall="mint"]::before     { background: linear-gradient(135deg,#eef9f3 0%,#ddf1e8 45%,#e9f6fb 100%); }
+body[data-wall="lavender"]::before { background: linear-gradient(135deg,#f6f2fc 0%,#ebe2f8 50%,#f9ecf6 100%); }
+body[data-wall="peach"]::before    { background: linear-gradient(135deg,#fdf5ea 0%,#fbeadb 45%,#f9e3ec 100%); }
+body[data-wall="ocean"]::before    { background: linear-gradient(135deg,#edf6fb 0%,#e2eff8 45%,#e9f6f2 100%); }
+body[data-wall="blossom"]::before  { background: linear-gradient(135deg,#fdf0f3 0%,#f8e7f2 50%,#efe9fa 100%); }
+body[data-wall="sand"]::before     { background: linear-gradient(135deg,#faf5ec 0%,#f3ead9 50%,#f7eee8 100%); }
+body[data-wall="dusk"]::before     { background: linear-gradient(135deg,#4a4560 0%,#5d5474 55%,#77688a 100%); }
+body[data-wall="night"]::before    { background: linear-gradient(135deg,#3a3f4c 0%,#4a5064 60%,#565270 100%); }
 /* мягкий узор поверх градиента */
 body::after {
   content: "";
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background-image: radial-gradient(rgba(255,255,255,.28) 1px, transparent 1.6px);
+  background-image: radial-gradient(rgba(255,255,255,.35) 1px, transparent 1.6px);
   background-size: 26px 26px;
-  opacity: .5;
+  opacity: .45;
 }
 
 /* тёмные обои → светлый текст */
-body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,54,.72);
-  --p-card-solid: #2b2940; --p-border: rgba(255,255,255,.14);
-  --p-shadow: 0 10px 30px rgba(0,0,0,.35); --p-shadow-lg: 0 18px 45px rgba(0,0,0,.45); }
+body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(48,46,66,.78);
+  --p-card-solid: #34324a; --p-border: rgba(255,255,255,.14);
+  --p-shadow: 0 10px 30px rgba(0,0,0,.30); --p-shadow-lg: 0 18px 45px rgba(0,0,0,.40); }
+
+/* ---------- приколюшки (классы с <body>, тумблеры в Настройках) ---------- */
+@keyframes funDrift {
+  0%   { transform: translateY(105vh) translateX(0) scale(.8); opacity: 0; }
+  10%  { opacity: .55; }
+  90%  { opacity: .35; }
+  100% { transform: translateY(-8vh) translateX(40px) scale(1.1); opacity: 0; }
+}
+.fun-particle {
+  position: fixed; bottom: -20px; z-index: -1; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.9), var(--p-accent));
+  box-shadow: 0 0 12px rgba(180,140,196,.35);
+  animation: funDrift linear infinite;
+  display: none;
+}
+body.fx-particles .fun-particle { display: block; }
+
+@keyframes funFloatUp {
+  0%   { transform: translateY(0) rotate(0); opacity: 1; }
+  100% { transform: translateY(-70vh) rotate(40deg); opacity: 0; }
+}
+.fun-float {
+  position: fixed; bottom: -40px; z-index: 60; pointer-events: none;
+  animation: funFloatUp ease-out forwards;
+}
+
+body.fx-round { --p-radius: 28px; }
+body.fx-noglass .home-sidebar, body.fx-noglass .home-topbar,
+body.fx-noglass .stat-card, body.fx-noglass .device-card, body.fx-noglass .scene-card,
+body.fx-noglass .project-card, body.fx-noglass .about-card, body.fx-noglass .quick-btn,
+body.fx-noglass .room-tab { backdrop-filter: none; --p-card: var(--p-card-solid); }
+
 
 /* ---------- каркас ---------- */
 .home-app { display: flex !important; min-height: 100vh; height: auto; }
@@ -73,7 +108,7 @@ body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,5
 .logo-mark {
   width: 44px; height: 44px; border-radius: 14px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--p-accent), var(--p-sky));
+  background: linear-gradient(135deg, var(--p-accent), var(--p-accent-2));
   color: #fff !important; font-size: 22px; text-shadow: none;
   box-shadow: 0 6px 16px rgba(180,140,196,.35);
 }
@@ -86,7 +121,7 @@ body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,5
 }
 .home-nav-link:hover { background: rgba(180,140,196,.14); color: var(--p-ink); }
 .home-nav-link.active {
-  background: linear-gradient(135deg, var(--p-accent), #c99ad4);
+  background: linear-gradient(135deg, var(--p-accent), var(--p-accent-2));
   color: #fff; box-shadow: 0 6px 16px rgba(180,140,196,.4);
 }
 
@@ -105,7 +140,7 @@ body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,5
 .greeting { color: var(--p-ink); font-weight: 600; }
 
 .btn-ai {
-  background: linear-gradient(135deg, var(--p-accent), var(--p-sky));
+  background: linear-gradient(135deg, var(--p-accent), var(--p-accent-2));
   border: none; color: #fff; border-radius: 12px; font-weight: 600;
   box-shadow: 0 6px 16px rgba(180,140,196,.35);
 }
@@ -140,7 +175,7 @@ body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,5
 .room-tab { color: var(--p-ink-soft); }
 .room-tab:hover { color: var(--p-ink); border-color: var(--p-accent); }
 .room-tab.active {
-  background: linear-gradient(135deg, var(--p-accent), var(--p-sky));
+  background: linear-gradient(135deg, var(--p-accent), var(--p-accent-2));
   color: #fff; border-color: transparent; font-weight: 600;
 }
 
@@ -174,14 +209,14 @@ body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,5
 
 /* кнопки сцен */
 .btn-scene {
-  background: linear-gradient(135deg, var(--p-accent), var(--p-sky));
+  background: linear-gradient(135deg, var(--p-accent), var(--p-accent-2));
   color: #fff; border-radius: 12px; box-shadow: 0 6px 14px rgba(180,140,196,.35);
 }
 .btn-scene:hover { filter: brightness(1.06); box-shadow: 0 8px 18px rgba(180,140,196,.5); }
 
 /* ---------- AI-виджет ---------- */
 .ai-fab {
-  background: linear-gradient(135deg, var(--p-accent), var(--p-sky)) !important;
+  background: linear-gradient(135deg, var(--p-accent), var(--p-accent-2)) !important;
   box-shadow: 0 10px 26px rgba(180,140,196,.5) !important;
 }
 .ai-panel {
@@ -196,7 +231,7 @@ body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,5
 .ai-sub { color: var(--p-ink-soft) !important; }
 .ai-close { color: var(--p-ink-soft) !important; }
 .ai-msg-bot .ai-body { background: rgba(158,203,232,.22) !important; color: var(--p-ink) !important; }
-.ai-msg-user .ai-body { background: linear-gradient(135deg,var(--p-accent),#c99ad4) !important; color: #fff !important; }
+.ai-msg-user .ai-body { background: linear-gradient(135deg,var(--p-accent),var(--p-accent-2)) !important; color: #fff !important; }
 .ai-who { color: var(--p-ink-soft) !important; }
 .ai-chip { background: rgba(180,140,196,.12) !important; color: var(--p-accent-deep) !important;
   border: 1px solid var(--p-border) !important; }
@@ -204,7 +239,7 @@ body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,5
 #ai-input { background: var(--p-bg) !important; border: 1px solid var(--p-border) !important;
   color: var(--p-ink) !important; border-radius: 12px !important; }
 #ai-input:focus { border-color: var(--p-accent) !important; box-shadow: 0 0 0 3px rgba(180,140,196,.2) !important; }
-.ai-send { background: linear-gradient(135deg, var(--p-accent), var(--p-sky)) !important; border-radius: 12px !important; }
+.ai-send { background: linear-gradient(135deg, var(--p-accent), var(--p-accent-2)) !important; border-radius: 12px !important; }
 
 /* ---------- встроенные приложения (модалки apps.js) ---------- */
 .apps-shell { background: rgba(60,45,80,.35); backdrop-filter: blur(8px); }
@@ -248,3 +283,46 @@ body.wall-dark { --p-ink: #f0edf6; --p-ink-soft: #c9c2d8; --p-card: rgba(38,36,5
   .home-main { padding: 20px 16px; }
   .home-topbar { padding: 14px 16px; }
 }
+
+/* ---------- v5.1: настройки, акценты, сайдбар справа от контента ---------- */
+.home-app { flex-direction: row-reverse; }
+.home-sidebar { border-right: none; border-left: 1px solid var(--p-border); box-shadow: -4px 0 24px rgba(90,70,110,.06); }
+
+.btn-settings {
+  width: 100%; margin-top: 18px; padding: 10px 14px; cursor: pointer;
+  border: 1px dashed var(--p-border); border-radius: 14px; background: transparent;
+  color: var(--p-ink-soft); font-size: 14px; font-weight: 600; transition: all .18s ease;
+}
+.btn-settings:hover { border-color: var(--p-accent); color: var(--p-ink); background: rgba(180,140,196,.10); }
+
+.wall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 12px; align-items: center; }
+.wall-pick-btn { width: 100%; height: 56px; position: relative; }
+.wall-pick-btn::after {
+  content: attr(title); position: absolute; inset: auto 0 0 0; text-align: center;
+  font-size: 11px; font-weight: 600; color: rgba(60,50,80,.75);
+  background: rgba(255,255,255,.55); border-radius: 0 0 12px 12px; padding: 2px 0;
+}
+.accent-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.accent-btn {
+  width: 46px; height: 46px; border-radius: 50%; cursor: pointer; border: 3px solid transparent;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15); transition: transform .15s ease, border-color .15s ease;
+}
+.accent-btn:hover { transform: scale(1.1); }
+.accent-btn.active { border-color: var(--p-ink); }
+
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 10px 2px; border-bottom: 1px dashed var(--p-border);
+}
+.toggle-row:last-of-type { border-bottom: none; }
+.toggle-row label { font-size: 15px; color: var(--p-ink); }
+
+@media (max-width: 860px) {
+  .home-app { flex-direction: column-reverse; }
+  .home-sidebar { border-left: none; border-bottom: none; border-top: 1px solid var(--p-border); }
+  .btn-settings { display: none; }
+}
+
+/* ---------- v5.1: защита от тёмной базы style.css до применения обоев ---------- */
+html, body.home-body { background: #f6f3fa !important; color: var(--p-ink) !important; overflow: auto !important; }
+body.wall-dark, body.wall-dark.home-body { background: #4a4560 !important; color: var(--p-ink) !important; }

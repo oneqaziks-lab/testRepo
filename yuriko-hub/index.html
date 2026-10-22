@@ -24,8 +24,13 @@
         <button class="home-nav-link active" data-section="projects">🚀&nbsp; Проекты</button>
         <button class="home-nav-link" data-section="devices">💡&nbsp; Устройства</button>
         <button class="home-nav-link" data-section="scenes">🎬&nbsp; Сцены</button>
-                <button class="home-nav-link" data-section="about">ℹ️&nbsp; О системе</button>
+        <button class="home-nav-link" data-section="settings">⚙️&nbsp; Настройки</button>
+        <button class="home-nav-link" data-section="about">ℹ️&nbsp; О системе</button>
       </nav>
+
+      <button id="btn-settings" class="btn-settings" title="Настройки оформления (Ctrl+M)">
+        🎨&nbsp;<span>Оформление</span>
+      </button>
 
       <div class="sidebar-footer">
         <div class="gw-status">
@@ -87,6 +92,33 @@
           <h1 class="section-title">Наши проекты</h1>
           <p class="section-subtitle">Экосистема Yuriko: мессенджер, видеохостинг и ассистенты живут здесь же, в хабе.</p>
           <div class="projects-grid" id="projects-grid"></div>
+        </section>
+
+        <!-- ===== РАЗДЕЛ: НАСТРОЙКИ ===== -->
+        <section id="section-settings" class="gui-section">
+          <h1 class="section-title">Настройки</h1>
+          <p class="section-subtitle">Оформление хаба — обои, акцентный цвет и приколюшки. Всё сохраняется в браузере.</p>
+
+          <div class="about-card">
+            <h2>🖼 Обои</h2>
+            <p class="section-subtitle" style="margin-bottom:14px">Мягкие светлые градиенты по умолчанию. Тёмные варианты тоже есть — текст сам адаптируется.</p>
+            <div id="settings-walls"></div>
+          </div>
+
+          <div class="about-card">
+            <h2>🎯 Акцентный цвет</h2>
+            <p class="section-subtitle" style="margin-bottom:14px">Определяет цвет кнопок, переключателей и подсветки.</p>
+            <div id="settings-accents" class="accent-row"></div>
+          </div>
+
+          <div class="about-card">
+            <h2>✨ Приколюшки</h2>
+            <div class="toggle-row"><label for="tg-particles">Живые частицы на фоне</label><span id="tg-particles"></span></div>
+            <div class="toggle-row"><label for="tg-emoji">Плавающие эмодзи при смене обоев</label><span id="tg-emoji"></span></div>
+            <div class="toggle-row"><label for="tg-round">Максимально круглые карточки</label><span id="tg-round"></span></div>
+            <div class="toggle-row"><label for="tg-glass">Стекло и размытие (blur)</label><span id="tg-glass"></span></div>
+            <button id="btn-reset-style" class="btn btn-danger" style="margin-top:10px">↺ Сбросить всё к мягкому стандарту</button>
+          </div>
         </section>
 
         <!-- ===== РАЗДЕЛ: О СИСТЕМЕ ===== -->
