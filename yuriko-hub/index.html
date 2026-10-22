@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yuriko Hub — Умный дом</title>
+  <title>Yuriko Hub</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pastel.css" />
 </head>
 <body class="home-body">
 
@@ -17,14 +18,13 @@
         <span class="logo-mark">⌂</span>
         <span class="logo-text">Yuriko&nbsp;<b>Hub</b></span>
       </div>
-      <p class="sidebar-caption">Центр умного дома</p>
+      <p class="sidebar-caption">Хаб проектов · pastel UI</p>
 
       <nav class="home-nav">
-        <button class="home-nav-link active" data-section="dashboard">🏠&nbsp; Обзор</button>
+        <button class="home-nav-link active" data-section="projects">🚀&nbsp; Проекты</button>
         <button class="home-nav-link" data-section="devices">💡&nbsp; Устройства</button>
         <button class="home-nav-link" data-section="scenes">🎬&nbsp; Сцены</button>
-        <button class="home-nav-link" data-section="projects">🚀&nbsp; Проекты</button>
-        <button class="home-nav-link" data-section="about">ℹ️&nbsp; О системе</button>
+                <button class="home-nav-link" data-section="about">ℹ️&nbsp; О системе</button>
       </nav>
 
       <div class="sidebar-footer">
@@ -43,7 +43,8 @@
     <div class="home-content">
       <header class="home-topbar">
         <div class="greeting" id="greeting">Добрый вечер, Yuriko 👋</div>
-        <div class="topbar-right">
+        <div class="topbar-right" style="display:flex;gap:10px;align-items:center">
+          <button id="btn-wall-next" class="btn-ai" title="Сменить обои (Ctrl+W)" style="padding:8px 12px">🎨</button>
           <button id="btn-open-ai" class="btn-ai" title="Открыть Yuriko AI Assistant (Ctrl+J)">✦ AI Assistant</button>
         </div>
       </header>
@@ -51,7 +52,7 @@
       <main class="home-main">
 
         <!-- ===== РАЗДЕЛ: ОБЗОР ===== -->
-        <section id="section-dashboard" class="gui-section active">
+        <section id="section-dashboard" class="gui-section">
           <div class="stat-grid">
             <div class="stat-card"><div class="stat-value" id="stat-temp">22.5°C</div><div class="stat-label">🌡 Температура</div></div>
             <div class="stat-card"><div class="stat-value" id="stat-hum">45%</div><div class="stat-label">💧 Влажность</div></div>
@@ -82,7 +83,7 @@
         </section>
 
         <!-- ===== РАЗДЕЛ: ПРОЕКТЫ ===== -->
-        <section id="section-projects" class="gui-section">
+        <section id="section-projects" class="gui-section active">
           <h1 class="section-title">Наши проекты</h1>
           <p class="section-subtitle">Экосистема Yuriko: мессенджер, видеохостинг и ассистенты живут здесь же, в хабе.</p>
           <div class="projects-grid" id="projects-grid"></div>
@@ -91,14 +92,15 @@
         <!-- ===== РАЗДЕЛ: О СИСТЕМЕ ===== -->
         <section id="section-about" class="gui-section">
           <h1 class="section-title">О системе</h1>
-          <p class="section-subtitle">Yuriko Hub — домашний сервер управления умным домом и точ входа в экосистему проектов команды.</p>
+          <p class="section-subtitle">Yuriko Hub — графический хаб проектов команды в мягких пастельных тонах.</p>
           <div class="about-card">
-            <h2>Как это работает</h2>
+            <h2>Что внутри</h2>
             <ul>
-              <li>Все состояния устройств хранятся локально (<code>localStorage</code>) и переживают перезагрузку страницы</li>
-              <li>Шлюз — Node-сервер <code>server/server.js</code> (порт 8080) или Apache/XAMPP (порты 80/443), MySQL на 3306</li>
-              <li>AI-ассистент умеет включать свет, менять температуру и управлять сценами голосом/текстом: «включи свет на кухне», «сделай 24 градуса», «режим кино»</li>
-              <li>Разделы «Обзор», «Устройства», «Сцены», «Проекты» — слева; горячая клавиша <code>Ctrl+J</code> — ассистент</li>
+              <li><b>Проекты</b> — витрина экосистемы: Rave, YkoTube, AI Assistant и другие (главный раздел хаба)</li>
+              <li><b>Устройства и Сцены</b> — локальная панель-декор для настроения: тумблеры, ползунки и сцены одним нажатием</li>
+              <li><b>✦ AI Assistant</b> — умный ассистент: база знаний BM25, математика, память диалога (Ctrl+J)</li>
+              <li><b>🖼 Обои</b> — 8 пастельных тем, выбор сохраняется между перезагрузками (кнопка 🎨 или Ctrl+W)</li>
+              <li>Состояния панели хранятся локально (<code>localStorage</code>) и переживают перезагрузку страницы</li>
             </ul>
           </div>
           <div class="about-card">
@@ -109,13 +111,13 @@
             </p>
             <ul>
               <li>БД: <code>yarikodb</code> (Rave) и <code>ykotube</code> (YkoTube), пользователь <code>root@localhost</code> без пароля</li>
-              <li>Страницы приложений: <a href="rave.html" style="color:var(--accent-2)">rave.html</a> · <a href="ykotube.html" style="color:var(--accent-2)">ykotube.html</a></li>
+              <li>Страницы приложений: <a href="rave.html">rave.html</a> · <a href="ykotube.html">ykotube.html</a></li>
             </ul>
           </div>
         </section>
       </main>
 
-      <footer class="gui-footer">Yuriko Hub © 2026 — ваш умный дом под контролем ⌂</footer>
+      <footer class="gui-footer">Yuriko Hub © 2026 — пастельный хаб проектов 🌸</footer>
     </div>
   </div>
 
@@ -126,5 +128,6 @@
   <script src="js/home.js"></script>
   <script src="js/gui.js"></script>
   <script src="js/ai-ui.js"></script>
+  <script src="js/fun.js"></script>
 </body>
 </html>

@@ -94,7 +94,8 @@ function renderProjects() {
       card.href = "#";
       card.addEventListener("click", (e) => {
         e.preventDefault();
-        if (window.YurikoApps) window.YurikoApps.open(appId);
+        if (appId === "ai" && window.YurikoAUI) window.YurikoAUI.open();
+        else if (window.YurikoApps) window.YurikoApps.open(appId);
       });
     } else if (p.url && p.url !== "#") {
       card.href = p.url;
