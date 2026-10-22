@@ -3,115 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yuriko Hub</title>
+  <title>Yuriko Hub · мягкий графический хаб</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body class="hub-body">
 
-  <!-- ===================== ТЕРМИНАЛ ===================== -->
-  <div id="terminal-screen" class="screen active">
-    <div class="terminal-window">
-      <div class="terminal-titlebar">
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
-        <span class="terminal-title">user@yuriko-hub: ~ — bash</span>
-      </div>
-      <div id="terminal-output" class="terminal-output"></div>
-      <div class="terminal-input-line">
-        <span class="prompt">user@yuriko-hub:~$</span>
-        <input id="terminal-input" type="text" autocomplete="off" autofocus spellcheck="false" />
-        <span class="cursor-block" id="cursor-hint"></span>
-      </div>
-    </div>
-  </div>
+  <!-- фон -->
+  <div id="wallpaper"></div>
+  <div id="particles"></div>
 
-  <!-- ===================== GUI ХАБА ===================== -->
-  <div id="gui-screen" class="screen">
-    <header class="gui-header">
+  <div class="hub-app">
+
+    <!-- ---------- САЙДБАР (слева) ---------- -->
+    <aside class="sidebar">
       <div class="logo">
-        <span class="logo-mark">◈</span>
+        <span class="logo-mark">⌂</span>
         <span class="logo-text">Yuriko&nbsp;<b>Hub</b></span>
       </div>
-      <nav class="gui-nav">
-        <a href="#" class="nav-link active" data-section="projects">Проекты</a>
-        <a href="#" class="nav-link" data-section="about">О хабе</a>
-        <button id="btn-open-ai" class="btn-ai" title="Открыть Yuriko AI Assistant (Ctrl+J)">✦ AI Assistant</button>
-        <button id="btn-exit-gui" class="btn-exit" title="Вернуться в терминал">&lt;/&gt; Terminal</button>
+      <p class="side-caption">графический хаб проектов · v6.0</p>
+
+      <nav class="nav">
+        <button class="nav-link active" data-section="projects">🚀&nbsp; Проекты</button>
+        <button class="nav-link" data-section="devices">💡&nbsp; Устройства</button>
+        <button class="nav-link" data-section="scenes">🎬&nbsp; Сцены</button>
+        <button class="nav-link" data-section="settings">⚙️&nbsp; Настройки</button>
+        <button class="nav-link" data-section="about">ℹ️&nbsp; О системе</button>
       </nav>
-    </header>
 
-    <main class="gui-main">
-      <section id="section-projects" class="gui-section active">
-        <h1 class="section-title">Наши проекты</h1>
-        <p class="section-subtitle">Центральный хаб между проектами Yuriko. Здесь скоро появится всё самое интересное.</p>
+      <div class="side-footer">
+        <div class="gw-status">
+          <span class="gw-dot" id="gw-dot"></span>
+          <span id="gw-text">Шлюз: проверка…</span>
+        </div>
+        <div>
+          <div class="clock-time" id="clock-time">--:--</div>
+          <div class="clock-date" id="clock-date"></div>
+        </div>
+      </div>
+    </aside>
 
-        <div class="projects-grid" id="projects-grid">
-          <!-- карточки генерируются из js/projects.js -->
+    <!-- ---------- КОНТЕНТ (справа) ---------- -->
+    <main class="main">
+      <header class="topbar">
+        <div class="greeting" id="greeting">Здравствуйте 🌿</div>
+        <div class="top-actions">
+          <button class="btn btn-sm" id="btn-wp-quick" title="Следующие обои (Ctrl+W)">🎨 Обои</button>
+          <button class="btn btn-primary btn-sm" id="btn-ai-top">✦ AI Assistant</button>
         </div>
-      </section>
+      </header>
 
-      <section id="section-about" class="gui-section">
-        <h1 class="section-title">О хабе</h1>
-        <p class="section-subtitle">
-          Yuriko Hub — это единая точка входа для всех проектов команды.
-          Загрузочный терминал имитирует старт Linux-системы, а команда
-          <code>GUI</code> открывает графическую часть хаба.
-        </p>
-        <div class="about-card">
-          <h2>Как это работает</h2>
-          <ul>
-            <li>При входе автоматически выполняются 80 команд загрузки системы</li>
-            <li>После завершения загрузки становится доступна команда <code>GUI</code></li>
-            <li><code>GUI</code> — переключение в графический режим хаба</li>
-            <li><code>help</code> — список доступных команд терминала</li>
-            <li><code>ai &lt;вопрос&gt;</code> — спросить Yuriko AI прямо из терминала</li>
-          </ul>
-        </div>
-        <div class="about-card">
-          <h2>Yuriko AI Assistant ✦</h2>
-          <p>
-            Встроенный умный ассистент: понимает вопросы на русском и английском,
-            ищет ответы по базе знаний через BM25-индекс, решает математику
-            собственным парсером выражений (скобки, степени, корни, проценты)
-            и помнит контекст диалога. Работает полностью локально в браузере.
-          </p>
-          <ul>
-            <li>Открыть: кнопка <b>✦ AI Assistant</b>, команда <code>ai</code> в терминале или <code>Ctrl+J</code></li>
-            <li>Попробуй: «Что такое хаб?», «Сколько будет (12+8)*3 − sqrt(25)?», «15% от 2400», «пошути»</li>
-            <li>Slash-команды: <code>/skills</code>, <code>/status</code>, <code>/clear</code></li>
-          </ul>
-        </div>
-        <div class="about-card">
-          <h2>Экосистема: Rave + YkoTube + БД</h2>
-          <p>
-            <b>Rave</b> 💬 — мессенджер хаба: регистрация только через ботов-верификаторов
-            с кодами доступа, двухфакторная аутентификация (6-значные коды от @Yuriko_AuthBot).
-            <b>YkoTube</b> 📺 — видеохостинг: аккаунты не создаются отдельно — вход и регистрация
-            выполняются через Rave (единый OAuth-подобный токен).
-          </p>
-          <ul>
-            <li>БД: две базы — <code>yarikodb</code> (Rave) и <code>ykotube</code> (YkoTube)</li>
-            <li>Подключение: <code>root@localhost</code>, пользователь root <b>без пароля</b></li>
-            <li>Запуск сервера: <code>node server/server.js</code> → http://localhost:8080</li>
-            <li>Схема MySQL: <code>sql/schema.sql</code> · команды: <code>rave</code>, <code>ykotube</code></li>
-          </ul>
-        </div>
-      </section>
+      <div class="scroll">
+
+        <!-- ПРОЕКТЫ -->
+        <section class="section active" id="sec-projects">
+          <h2 class="sec-title">Проекты хаба</h2>
+          <p class="sec-sub">Приложения и сервисы, которые живут внутри Yuriko Hub</p>
+          <div class="grid" id="projects-grid"></div>
+        </section>
+
+        <!-- УСТРОЙСТВА -->
+        <section class="section" id="sec-devices">
+          <h2 class="sec-title">Карта сети</h2>
+          <p class="sec-sub" id="net-note">Все сетевые устройства, подключённые к хабу — запрашиваются с сервера в реальном времени.</p>
+          <div class="stats" id="network-stats"></div>
+          <div class="grid" id="network-grid"><div class="card"><p class="proj-desc">Загрузка устройств…</p></div></div>
+
+          <h2 class="sec-title">Умный дом</h2>
+          <p class="sec-sub">Управляемые smart-устройства дома</p>
+          <div class="stats" id="device-stats"></div>
+          <div class="chips" id="room-chips"></div>
+          <div class="grid" id="device-grid"></div>
+        </section>
+
+        <!-- СЦЕНЫ -->
+        <section class="section" id="sec-scenes">
+          <h2 class="sec-title">Сцены</h2>
+          <p class="sec-sub">Одно нажатие — несколько устройств сразу</p>
+          <div class="grid" id="scenes-grid"></div>
+        </section>
+
+        <!-- НАСТРОЙКИ -->
+        <section class="section" id="sec-settings">
+          <h2 class="sec-title">Настройки оформления</h2>
+
+          <div class="set-block">
+            <h3 class="sec-title" style="font-size:15px">🖼 Обои <button class="btn btn-sm" id="btn-random-wp" style="margin-left:8px">🎲 Случайные</button></h3>
+            <div class="wp-grid" id="wp-grid"></div>
+          </div>
+
+          <div class="set-block">
+            <h3 class="sec-title" style="font-size:15px">🎨 Акцентный цвет</h3>
+            <div class="swatches" id="accent-row"></div>
+          </div>
+
+          <div class="set-block">
+            <h3 class="sec-title" style="font-size:15px">✨ Приколюшки</h3>
+            <div class="toggle-row"><div><div class="toggle-label">Парящие частицы</div><div class="toggle-hint">мягкие точки медленно всплывают на фоне</div></div>
+              <label class="switch"><input type="checkbox" id="tg-particles"><span class="track"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Эмодзи-салют</div><div class="toggle-hint">🌸✨ при смене обоев</div></div>
+              <label class="switch"><input type="checkbox" id="tg-confetti"><span class="track"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Максимальная округлость</div><div class="toggle-hint">карточки становятся ещё мягче</div></div>
+              <label class="switch"><input type="checkbox" id="tg-round"><span class="track"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Стекло и размытие</div><div class="toggle-hint">blur-эффект карточек и панели</div></div>
+              <label class="switch"><input type="checkbox" id="tg-glass"><span class="track"></span></label></div>
+            <div style="margin-top:12px"><button class="btn btn-danger btn-sm" id="btn-reset">↺ Сбросить всё</button></div>
+          </div>
+        </section>
+
+        <!-- О СИСТЕМЕ -->
+        <section class="section" id="sec-about">
+          <h2 class="sec-title">О системе</h2>
+          <div class="about-grid">
+            <div class="card"><div id="about-info"></div></div>
+            <div class="card">
+              <p class="proj-desc" style="flex:none">
+                <b>Yuriko Hub</b> — локальный графический хаб: карта домашней сети (реальные устройства из ARP),
+                умный дом со сценами, мессенджер Rave с 2FA-ботами, видеохостинг YkoTube со входом через Rave
+                и встроенный AI-ассистент. Работает поверх XAMPP: Apache раздаёт страницы (порты 80/443),
+                Node-сервер — API и БД (root@localhost, порт 8080).
+              </p>
+              <p class="proj-desc" style="flex:none;margin-top:10px">
+                Автообновление с GitHub: <code>update.bat</code> (Windows) или <code>update.sh</code> (Linux/macOS/cron).
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </div>
     </main>
-
-    <footer class="gui-footer">
-      Yuriko Hub © 2026 — сделано с ❤️ для будущих проектов
-    </footer>
   </div>
 
+  <!-- тосты -->
+  <div id="toast-zone"></div>
+
+  <!-- скрипты: конфиг → данные → устройства → ядро GUI → AI -->
   <script src="js/config.js"></script>
-  <script src="js/boot-commands.js"></script>
-  <script src="js/ai-engine.js"></script>
-  <script src="js/terminal.js"></script>
   <script src="js/projects.js"></script>
-  <script src="js/apps.js"></script>
-  <script src="js/gui.js"></script>
+  <script src="js/devices.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ai-engine.js"></script>
   <script src="js/ai-ui.js"></script>
+  <script>window.hubAI = window.YurikoAUI;</script>
 </body>
 </html>

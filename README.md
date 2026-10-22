@@ -1,15 +1,59 @@
-# testRepo
+# Yuriko Hub 🚀
 
-## Приветствие
+Локальный хаб проектов: терминал с Linux-boot симуляцией, GUI-витрина,
+Yuriko AI Assistant, мессенджер **Rave** и видеохостинг **YkoTube**.
+Всё работает офлайн на вашей машине (XAMPP или Node), БД — локально.
 
-Добро пожаловать! 👋
+## Быстрый старт
 
-Мы рады приветствовать вас в нашем проекте. Здесь вы найдёте всё необходимое для начала работы.
+### Вариант A — XAMPP (Apache :80/:443, MySQL :3306) — рекомендуется для 24/7
+1. Скопируйте папку `yuriko-hub/` в `C:\xampp\htdocs\`
+2. Запустите Apache в панели XAMPP
+3. Откройте http://localhost/yuriko-hub/
+4. Для API запустите один раз: `node yuriko-hub/server/server.js` (порт 8080)
+   — либо включите `server/db-mysql.js` при наличии MySQL.
 
-### С чего начать?
+### Вариант B — только Node.js
+```bash
+cd yuriko-hub
+node server/server.js
+# откройте http://localhost:8080
+```
 
-- Ознакомьтесь с документацией проекта
-- Изучите структуру репозитория
-- Задавайте вопросы — мы всегда на связи
+## Порты и адреса
+| Сервис | Порт | Адрес |
+|---|---|---|
+| Apache (сайт) | 80 / 443 | http://localhost/yuriko-hub/ |
+| Node API + статика | 8080 | http://localhost:8080 |
+| MySQL | 3306 | root@localhost, без пароля |
 
-Спасибо, что выбрали нас! Приятной работы! 🚀
+Клиент сам определяет, где он запущен (`js/config.js`): под Apache идёт
+запрос на `/yuriko-hub/api`, под Node — на `/api`. Проверка доступности
+сервера: любой адрес + `/api/health`.
+
+## Страницы
+- `/` — хаб: терминал (80 команд загрузки, скорость: `speed instant|fast|normal`) → команда `GUI`
+- `/rave.html` (или чистый URL `/rave`) — мессенджер Rave: боты верификации, коды регистрации, 2FA
+- `/ykotube.html` (или `/ykotube`) — видеохостинг YkoTube: вход только через токен Rave
+- Сессии сохраняются: после F5 вы возвращаетесь туда, где были, а не в консоль.
+
+## База данных
+- JSON-БД сервера: `server/data/` (исключена из git — ваши данные не затираются при обновлении)
+- Схема MySQL: `sql/schema.sql` (дatabases `yarikodb` + `ykotube`, пользователь root без пароля)
+```bash
+mysql -u root < sql/schema.sql
+```
+
+## Автообновление с GitHub
+```bash
+update.bat        # Windows/XAMPP: fetch+reset с сохранением локальной БД, рестарт сервера
+./update.sh       # Linux/macOS; cron каждые 15 мин см. комментарий в файле
+```
+REPO_URL внутри скриптов уже указывает на https://github.com/oneqaziks-lab/testRepo.git
+
+## Команды терминала
+`GUI` · `ai <вопрос>` · `rave` · `ykotube` · `projects` · `status` · `speed …` · `reboot` · `clear` · `help`
+
+## Технологии
+Vanilla JS (без сборки), Node.js http-сервер, BM25-поиск и math-парсер в AI-движке,
+SHA-256 OTP (TTL 5 мин) для 2FA, `.htaccess` для чистых URL и защиты `server/data`.
